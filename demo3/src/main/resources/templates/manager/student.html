@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body class="easyui-layout">
+<div data-options="region:'center',title:'123'" style="max-width:500px;margin:0 auto">
+    <div class="easyui-panel" title="注册学生" style="width:100%;max-width:400px;padding:30px 60px;">
+        <form id="r_s" class="easyui-form" method="post" data-options="novalidate:true" >
+        <div style="margin-bottom:20px">
+            <input id="r_stuName" class="easyui-textbox" name="name" style="width:100%" data-options="label:'姓名:',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+            <input id="r_stuId" class="easyui-textbox" name="number" style="width:100%" data-options="label:'学号:',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+                <select id="r_sex" class="easyui-combobox" name="性别" label="性别" style="width:100%" panelHeight="100" required="true" editable="false"  reversed="true">
+                    <option value="m">男</option>
+                    <option value="f">女</option>
+                </select>
+         </div>
+        <div style="margin-bottom:20px">
+            <input id="r_email" class="easyui-textbox" name="email" style="width:100%;suffix:'@" data-options="label:'邮箱:',required:true,validType:'email',">
+        </div>
+            <div style="margin-bottom:20px">
+                <input id="r_academy" class="easyui-textbox" name="acemy" style="width:100%" data-options="label:'学院:',required:true">
+            </div>
+        <div style="margin-bottom:20px">
+            <input id="r_classId" class="easyui-textbox" name="subject" style="width:100%" data-options="label:'班级:',required:true">
+        </div>
+            <div style="margin-bottom:20px">
+                <input id="r_birthday" class="easyui-datebox" label="出生年月日:"  style="width:100%; "data-options="required:true" editable="false">
+            </div>
+        <div style="margin-bottom:20px">
+            <input id="r_folk" class="easyui-textbox" name="message" style="width:100%;" data-options="label:'民族:',required:true">
+        </div>
+        <div style="margin-bottom:20px">
+                <input id="r_nation" class="easyui-textbox" name="nation" style="width:100%;" data-options="label:'籍贯:',required:true">
+        </div>
+            <div style="margin-bottom:20px">
+                <input id="r_tel" class="easyui-textbox" name="tel" style="width:100%;" data-options="label:'联系方式:',required:true">
+            </div>
+
+    </form>
+    <div style="text-align:center;padding:5px 0">
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="r_s_submitForm()" style="width:80px">Submit</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" onclick="r_s_clearForm()" style="width:80px">Clear</a>
+    </div>
+  </div>
+</div>
+<script>
+    function r_s_submitForm(){
+        $('#r_s').form('submit',{
+            onSubmit:function(){
+                alert($(this).form('enableValidation').form('validate'));
+                if($(this).form('enableValidation').form('validate')==true){
+                    alert("1");
+                    alert($("#r_birthday").val());
+                    var json={stuId:$("#r_stuId").val(),
+                        stuName:$("#r_stuName").val(),
+                        password:$("#r_stuId").val(),
+                        sex:$("#r_sex").val(),
+                        totalCredit:"0",
+                        birthday:$("#r_birthday").val(),
+                        email:$("#r_email").val(),
+                        classId:$("#r_classId").val(),
+                        folk:$("#r_folk").val(),
+                        nation:$("#r_nation").val(),
+                        tel:$("#r_tel").val(),
+                        academy:$("#r_academy").val()
+                    };
+                    alert(JSON.stringify(json));
+                    $.ajax({
+                        type: "post",
+                        url: "/manager/insertStudent",
+                        data:JSON.stringify(json),
+                        dataType: "json",
+                        contentType:"application/json",
+                        success:function (data,status) {
+                            alert(data.infomation);
+                        }
+                    });
+                }
+                return $(this).form('enableValidation').form('validate');
+            }
+        });
+    }
+    function r_s_clearForm(){
+        $('#r_s').form('clear');
+    }
+</script>
+</body>
+</html>

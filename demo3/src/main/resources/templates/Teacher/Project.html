@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>欢迎来到SC!</title>
+    <meta content="text/html; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" href="../../css/Teacher/layout_home.css">
+    <script type="text/javascript" src="../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../easyui/locale/easyui-lang-zh_CN.js"></script>
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
+    <!--此处还可插入其他meta、样式单等信息-->
+</head>
+
+<body>
+    <div id="home_head">
+        <a href="Information.html" style="text-decoration: none;">
+            <p id="home_head_name" th:text="${t}"></p>
+        </a>
+    </div>
+    <div>
+        <ul class="lable_ul">
+            <li class="lable_li"><img src="../../images/logo.png" height="50px" style="padding: 2px;"></li>
+            <li class="lable_li"><a  class="lable"  th:href="${t_home}">主页</a></li>
+            <li class="lable_li"><a class="lable" th:href="${t_course}">课程</a></li>
+            <li class="lable_li"><a class="lable" th:href="${t_Classroom}">教室资源</a></li>
+            <li class="lable_li"><a class="lable" th:href="${t_Project}">项目管理</a></li>
+        </ul>
+    </div>
+    <hr>
+
+    <div style="padding-top: 15px;float: left ;width: 22%;">
+        <div class="easyui-panel" title="项目总揽" style="width:100%;max-width:400px;padding:30px 60px;">
+            <li style="font-size: large;"><a style="text-decoration: none" th:href="${t_Project}">项目列表</a></li>
+            <br>
+            <li style="font-size: large;"><a style="text-decoration: none" th:href="${t_CreateProject}" >创建项目</a></li>
+        </div>
+    </div>
+
+    <div style="padding-top: 15px;float: right ;width: 75%;height:500px;padding-right:3% ;">
+        <table id="T_checkProject" class="easyui-datagrid" title="项目列表" style="width:100%;height:100%"
+               data-options="rownumbers:true,	toolbar: '#tb_TeacherProject',singleSelect:false">
+            <thead>
+            <tr>
+                <th data-options="field:'ck',checkbox:true"></th>
+                <th data-options="field:'projectId' " width="12%">项目编号</th>
+                <th data-options="field:'projectName'" width="12%">项目名称</th>
+                <th data-options="field:'type',align:'right'" width="12%">项目类型</th>
+                <th data-options="field:'leader',align:'right'" width="12%">项目组长</th>
+                <th data-options="field:'memNum'" width="7%">人数</th>
+                <th data-options="field:'other',align:'center'" width="12%">其他成员</th>
+                <th data-options="field:'state',align:'center'" width="12%">项目状态</th>
+                <th data-options="field:'teacherId',align:'center'" width="12%">指导老师</th>
+                <th data-options="field:'applyTime',align:'center'" width="12%">时间</th>
+            </tr>
+            </thead>
+        </table>
+
+    </div>
+
+    <div id="tb_TeacherProject" style="height: auto" >
+        项目分类：
+        <select id="select_projectstate" class="easyui-combobox" panelHeight="auto" style="width:15%" editable="false">
+            <option value="0">待审批项目</option>
+            <option value="1">已审批项目</option>
+            <option value="open">开题项目</option>
+            <option value="mid"> 中期项目 </option>
+            <option value="end"> 结题项目 </option>
+
+        </select>
+
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="T_project();">查询</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="accept_project()">提交审批</a>
+<!--        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" onclick="win_open()">录入等级</a>-->
+    </div>
+
+
+<!--    <div id="apply_classroom" class="easyui-window" title="Window Layout" data-options="iconCls:'icon-save' ,closed:true ,resizable:true" style="width:500px;height:600px;padding:5px;">-->
+<!--        <div class="easyui-layout" data-options="fit:true">-->
+<!--            <div data-options="region:'center'" style="width:100%;padding:30px 60px;height: 600px">-->
+<!--                <form id="apply_cr" class="easyui-form" method="post" data-options="novalidate:true" style="font-size: medium;height: 600px" >-->
+<!--                    <div style="margin-bottom:20px">-->
+<!--                        <input id="projectId" class="easyui-textbox"  label="项目编号:" style="width:80%" panelHeight="100" required="true"  reversed="true" labelWidth="150"/>-->
+
+<!--                    </div>-->
+<!--                    <div style="margin-bottom:20px">-->
+<!--                        <input id="projectName" class="easyui-textbox"  label="项目名称:" style="width:80%" panelHeight="100" required="true"  reversed="true" labelWidth="150"/>-->
+
+<!--                    </div>-->
+<!--                    <div style="margin-bottom:20px">-->
+<!--                        <input id="projectType"class="easyui-textbox" label="项目类型:" style="width:80%" panelHeight="100" required="true"   reversed="true" labelWidth="150"/>-->
+
+<!--                    </div>-->
+<!--                    <div style="margin-bottom:20px;" >-->
+<!--                        <select id="phase" class="easyui-combobox" label="阶段："  panelHeight="auto" style="width:80%" editable="false" labelWidth="150">-->
+<!--                            <option value="open">开题答辩</option>-->
+<!--                            <option value="mid">中期答辩</option>-->
+<!--                            <option value="close">结题答辩 </option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                    <div style="margin-bottom:20px;" >-->
+<!--                        <input id="time" class="easyui-datebox" label="时间:"  style="width:80%; "data-options="required:true" editable="true" labelWidth="150">-->
+<!--                    </div>-->
+<!--                    <div style="margin-bottom:20px;" >-->
+<!--                        <select id="mylevel" class="easyui-combobox" label="等级："  panelHeight="auto" style="width:80%" editable="false" labelWidth="150">-->
+<!--                            <option value="1">院级</option>-->
+<!--                            <option value="2">校级</option>-->
+<!--                            <option value="3">国家级</option>-->
+<!--                            <option value="4">未通过</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+
+<!--                </form>-->
+
+<!--            </div>-->
+<!--            <div data-options="region:'south',border:false" style="text-align:center;padding:5px 0;">-->
+<!--                <div style="margin-top: 50px">-->
+<!--                    <a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" href="javascript:void(0)" onclick="open_ok();" style="width:80px">Ok</a>-->
+<!--                    <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0)" onclick="close_cancel()" style="width:80px">Cancel</a>-->
+<!--                </div>-->
+
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+</body>
+
+<script>
+    // function win_open() {
+    //
+    //     var rows = $('#T_checkProject').datagrid('getSelected');
+    //     if(rows.state=="审核通过"){
+    //         $("#projectId").textbox('setValue',rows.projectId);
+    //         $("#projectName").textbox('setValue',rows.projectName);
+    //         $("#projectType").textbox('setValue',rows.type);
+    //         $("#apply_classroom").window('open');
+    //         console.log(JSON.stringify(rows));
+    //     }else {
+    //         alert("操作失败");
+    //     }
+    // }
+    // function  open_ok(){
+    //     var rows = $('#T_checkProject').datagrid('getSelected');
+    //     rows.mylevel=$("#mylevel").val();
+    //     rows.applyTime=$("#time").val();
+    //     rows.state=$("#phase").val();
+    //     console.log(rows);
+    //     $.ajax({
+    //         type: "post",
+    //         url: "/teacher/judgetheproject",
+    //         data: JSON.stringify(rows),
+    //         dataType: "json",
+    //         contentType: "application/json",
+    //         success: function (data_1, status) {
+    //             alert("审批通过");
+    //
+    //         }
+    //     });
+    //     $("#apply_classroom").window("close");
+    // }
+    // function close_cancel() {
+    //     $("#apply_classroom").window("close");
+    // }
+    function T_project() {
+        var json= {teacherId:$.getUrlParam("id"),type:$.getUrlParam("type"),
+                 state:$("#select_projectstate").val()
+        };
+        console.log(json);
+        console.log(JSON.stringify(json));
+        $.ajax({
+            type: "post",
+            url: "/teacher/allTheProject",
+            data: JSON.stringify(json),
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data_1, status) {
+                console.log(data_1);
+                var data=[];
+                for(var i=0;i<data_1.length;i++){
+                    console.log(data_1[0].inf[i].projectId);
+                    var ojson={};
+                    ojson.projectId=data_1[i].inf[i].projectId;
+                    ojson.projectName=data_1[i].inf[i].projectName;
+                    ojson.type=data_1[i].inf[i].projectType;
+                    ojson.leader=data_1[i].inf[i].stuId;
+                    console.log(ojson.leader);
+                    ojson.memNum=data_1[i].inf.length;
+                    ojson.other="";
+                    ojson.teacherId=data_1[i].inf[i].teacherName;
+                    ojson.applyTime=data_1[i].inf[i].applytime;
+                    console.log();
+                    ojson.state= change(data_1[i].inf[i].state,data_1[i].inf[i].mylevel);
+                    for(var j=0;j<data_1[i].inf.length;j++){
+                        if(j==data_1[i].inf.length-1){
+                            ojson.other+=data_1[i].inf[j].stuId;
+                        }else {
+                            ojson.other+=data_1[i].inf[j].stuId+"/";
+                        }
+                    }
+                    console.log(ojson);
+                    data.push(ojson);
+                    console.log(data);
+                }
+                console.log(data);
+                $('#T_checkProject').datagrid({data:data});
+            }
+        });
+
+    }
+
+
+    function accept_project(){
+
+        var rows = $('#T_checkProject').datagrid('getSelections');
+        console.log(rows);
+        if(rows[0].state=="未审核"){
+            console.log(JSON.stringify(rows));
+            $.ajax({
+                type: "post",
+                url: "/teacher/projectapply",
+                data: JSON.stringify(rows),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data_1, status) {
+                    alert("审批通过");
+                    T_project();
+                }
+            });
+        }else {
+            alert("操作失败");
+        }
+
+
+    }
+    $(function () {
+        T_project() ;
+    });
+
+    //用于取路径上面传过来的值
+    $.getUrlParam = function getUrlParam(name) {
+// 构造一个含有目标参数的正则表达式对象
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+// 匹配目标参数
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)
+            return unescape(r[2]);;
+        return null; // 返回参数值
+    };
+    function change( s,l) {
+        var  str="";
+        var arr=["","院级","校级","国家级","未通过"]
+        if(s==0){
+           str="未审核";
+        }else if(s==1){
+            str="审核通过";
+        }else if(s=="open"){
+
+            str="开题答辩/"+arr[l];
+        }
+        else if(s=="mid"){
+            str="中期答辩/"+arr[l];
+        } else {
+            str="结题答辩/"+arr[l];
+        }
+        return str;
+    }
+
+</script>
+
+</html>

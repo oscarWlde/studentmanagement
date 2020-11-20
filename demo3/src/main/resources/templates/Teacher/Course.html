@@ -1,0 +1,166 @@
+<!DOCTYPE>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>欢迎来到SC!</title>
+    <meta content="text/html; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" href="../../css/Teacher/layout_home.css">
+    <script src="../../js/Teacher/course.js"></script>
+<!--    <script src="../../js/Teacher/course.js"></script>-->
+    <script type="text/javascript" src="../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../easyui/locale/easyui-lang-zh_CN.js"></script>
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
+    <!--此处还可插入其他meta、样式单等信息-->
+</head>
+ <script>
+     $(function () {
+         var json= {tId: $.getUrlParam("id"), year: '2019',semester:"2"};
+         $.ajax({
+             type: "post",
+             url: "/teacherCourseTable",
+             data: JSON.stringify(json),
+             dataType: "json",
+             contentType: "application/json",
+             success: function (data, status) {
+                 console.log(data.data);
+                 var course_data=data.data;
+                 set_course_table($("#course_table"), course_data);
+             }
+         });
+     });
+ </script>
+<body>
+    <div id="home_head">
+        <a href="Information.html" style="text-decoration: none;">
+            <p id="home_head_name" th:text="${t}"></p>
+        </a>
+    </div>
+    <div>
+        <ul class="lable_ul">
+            <li class="lable_li"><img src="../../images/logo.png" height="50px" style="padding: 2px;"></li>
+            <li class="lable_li"><a  class="lable" th:href="${t_home}">主页</a></li>
+            <li class="lable_li"><a class="lable" th:href="${t_course}">课程</a></li>
+            <li class="lable_li"><a class="lable" th:href="${t_Classroom}">教室资源</a></li>
+            <li class="lable_li"><a class="lable" th:href="${t_Project}">项目管理</a></li>
+        </ul>
+    </div>
+    <hr>
+    <div style="padding-top: 15px;float: left ;width: 22%;">
+        <div class="easyui-panel" title="课程列表" style="width:100%;max-width:400px;padding:30px 60px;">
+            <li style="font-size: large;"><a style="text-decoration: none" th:href="${t_course}">当前教授课表</a></li>
+            <br>
+
+            <li style="font-size: large;"><a style="text-decoration: none" th:href="${t_SelectCourse}">选择课程</a></li>
+            <br>
+            <li style="font-size: large;"><a style="text-decoration: none" th:href="${t_SelectList}" >课程列表</a></li>
+            <br>
+            <li style="font-size: large;"><a style="text-decoration: none" th:href="${t_CourseTable}" >已选课程表</a></li>
+        </div>
+    </div>
+
+
+    <div style="padding-top: 15px;float: right ;width: 75%;padding-right:3% ;">
+        <fieldset style="width: 100%;height: 70%;">
+            <legend style="font-size: 20px;padding-bottom: 2px;"><b>课程表</b></legend>
+            <table id="course_table" style="width: 100%; height: 90%; font-size: larger;border-collapse:collapse;text-align: center;" border="2">
+                <tr style="height: 50px;">
+                    <th>Time</th>
+                    <th>星期一</th>
+                    <th>星期二</th>
+                    <th>星期三</th>
+                    <th>星期四</th>
+                    <th>星期五</th>
+                    <th>星期六</th>
+                    <th>星期日</th>
+                </tr>
+                <tr>
+                    <td>8:00-9:50</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>10:10-12:00</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>12:10-14:00</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>14:10-16:00</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>16:20-18:10</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>19:00-20:50</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>21:00-21:50</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+</body>
+<script>
+    //用于取路径上面传过来的值
+    $.getUrlParam = function getUrlParam(name) {
+// 构造一个含有目标参数的正则表达式对象
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+// 匹配目标参数
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)
+            return unescape(r[2]);
+        return null; // 返回参数值
+    };
+
+</script>
+
+</html>

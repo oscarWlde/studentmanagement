@@ -1,0 +1,290 @@
+<!DOCTYPE>
+<html  html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>欢迎来到SC!</title>
+    <meta content="text/html; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" href="../../css/Teacher/layout_home.css">
+    <script src="../../js/Teacher/home.js"></script>
+    <script type="text/javascript" src="../../js/auto_create_table_classroom.js"></script>
+    <script type="text/javascript" src="../js/auto_create_table_classroom.js"></script>
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css">
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../../js/auto_create_table_classroom.js"></script>
+    <!--此处还可插入其他meta、样式单等信息-->
+    <style>
+        td{width: 1%;height: 30px;font-size: 0.6em;font-weight:bold;}
+    </style>
+    <script>
+        $(function () {
+
+            next=1;
+            var date = new Date();
+            var year =date.getFullYear();
+            var month=date.getMonth()+1;
+            var sun=date.getDate();
+            console.log(year+"-"+month+"-"+sun);
+            var days=DateDiff(year+"-"+month+"-"+sun,"2019-09-02");//计算天数
+            var week=Math.floor(days/7)-1;//第几周
+            var day=days%7+1;//星期几
+            var semester=2;
+            var str=year+"/"+semester;
+            if(month>=9||month<=1){
+                semester=2;
+            }else {
+                semester=1;
+            }
+            console.log(day);
+            //自动扫描到本年
+            for(var i=0;i<$("#year option").length;i++){
+                if(str==$("#year option:eq("+i+")").text()){
+                    $("#year").val($("#year option:eq("+i+")").val());
+                    break;
+                }
+            }
+            //自动扫描到本周
+            for(var i=0;i<$("#week option").length;i++){
+                if(week==$("#week option:eq("+i+")").val()){
+                    $("#week").val($("#week option:eq("+i+")").val());
+                    break;
+                }
+            }
+            load_classroom();
+        });
+    </script>
+</head>
+
+<body>
+<div id="c" class="">
+    <div id="head">
+    <div id="home_head">
+        <a href="Information.html" style="text-decoration: none;">
+            <p id="home_head_name" th:text="${t}"></p>
+        </a>
+    </div>
+    <div>
+        <ul class="lable_ul">
+            <li class="lable_li"><img src="../../images/logo.png" height="50px" style="padding: 2px;"></li>
+            <li class="lable_li"><a  class="lable" th:href="${t_home}">主页</a></li>
+            <li class="lable_li"><a class="lable" th:href="${t_course}">课程</a></li>
+            <li class="lable_li"><a class="lable" th:href="${t_Classroom}">教室资源</a></li>
+            <li class="lable_li"><a class="lable" th:href="${t_Project}">项目管理</a></li>
+        </ul>
+    </div>
+    </div>
+    <hr>
+
+
+    <div id="l"  class="">
+        <div id="l_1"  class="">
+            <div id="l_1_1" class="">
+                &nbsp
+                <b id="l_1_1_1">欢迎你1 </b>
+            </div>
+            <div id="l_1_2" class="">
+                &nbsp
+                <b id="l_1_2_1">服务</b> <hr>
+                <u id="l_1_2_2">
+                    <li > <a class="l_select"  th:href="${t_Classroom}" >教室占用情况</a></li> <hr>
+                    <li ><a class="l_select"  th:href="${t_SelectedCourse}">已申请教室</a></li> <hr>
+                </u>
+            </div>
+        </div>
+    </div>
+    <div id="r"  class="">
+        <div id="r_1"  class="">
+            <div id="r_1_1" class="">
+                &nbsp
+                <b id="r_1_1_1">教室占用信息</b>
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp
+                <b id="r_1_1_2" style="font-family: STKaiti;font-weight: bolder">课程占用</b>
+                <b id="r_1_1_5" style="font-family: STKaiti;font-weight: bolder">个人占用</b>
+            </div>
+            <div id="r_1_2" class="">
+                <b class="time" >年份:</b>
+                <select style="font-size: 0.5em" id="year">
+                    <option style="font-size: 1em" value="0">2019/2</option>
+                </select>&emsp;&emsp;
+                <b class="time">周次:</b>
+                <select style="font-size: 0.5em" id="week">
+                    <option style="font-size: 1em" value="0"> week 1</option>
+                    <option style="font-size:1em"  value="1"> week 2</option>
+                    <option style="font-size: 1em"  value="2">week 3 </option>
+                    <option  style="font-size: 1em" value="3">week 4</option>
+                    <option  style="font-size: 1em" value="4"> week 5</option>
+                    <option  style="font-size: 1em" value="5"> week 6</option>
+                    <option  style="font-size: 1em" value="6">week 7 </option>
+                    <option  style="font-size: 1em" value="7">week  8 </option>
+                    <option  style="font-size: 1em" value="8">week 9 </option>
+                    <option  style="font-size: 1em" value="9">week  10 </option>
+                    <option  style="font-size: 1em" value="10">week 11 </option>
+                    <option  style="font-size: 1em" value="11"> week 12</option>
+                    <option  style="font-size: 1em" value="12">week 13 </option>
+                    <option  style="font-size: 1em" value="13">week 14 </option>
+                    <option  style="font-size: 1em" value="14"> week 15</option>
+                    <option  style="font-size: 1em" value="15"> week 16</option>
+                    <option  style="font-size: 1em" value="16">week 17 </option>
+                    <option  style="font-size: 1em" value="17">week 18 </option>
+                    <option  style="font-size: 1em" value="18">week 19 </option>
+                    <option  style="font-size: 1em" value="19">week 20 </option>
+
+                </select>&emsp;&emsp;
+                <b class="time">教学楼:</b>
+                <select style="font-size: 0.5em" id="building">
+                    <option style="font-size: 1em" value="0"> 全部</option>
+                    <option style="font-size: 1em" value="1">SY</option>
+                    <option style="font-size:1em"  value="2">YF</option>
+                    <option style="font-size: 1em"  value="3">SD</option>
+                    <option  style="font-size: 1em" value="4">SX</option>
+                    <option  style="font-size: 1em" value="5">Center</option>
+                </select>&emsp;&emsp;
+                &nbsp
+                <input type="button"  value="Search" id="search" onclick="load_classroom();"/>
+            </div>
+            <div id="r_1_3" class="">
+
+                <table  id="senfe";width="100%"  border="1"  cellpadding="0" cellspacing="0" style="border-collapse:collapse">
+                    <thead>
+                    <tr >
+                        <td class="t_row_1">周次</td>
+                        <td class="t_row_1" colspan="7" >星期一</td>
+                        <td class="t_row_1" colspan="7" >星期二</td>
+                        <td class="t_row_1"  colspan="7" >星期三</td>
+                        <td class="t_row_1" colspan="7" >星期四</td>
+                        <td class="t_row_1" colspan="7" >星期五</td
+                        ><td class="t_row_1" colspan="7" >星期六</td>
+                        <td class="t_row_1" colspan="7" >星期日</td>
+
+                    </tr>
+                    <tr >
+                        <td  class="time">教室/节次</td>
+                        <td class="t_row_2">1</td> <td class="t_row_2">2</td><td class="t_row_2" >3</td><td class="t_row_2">4</td><td class="t_row_2">5</td><td class="t_row_2">6</td><td class="t_row_2">7</td>
+                        <td class="t_row_2">1</td> <td class="t_row_2">2</td><td class="t_row_2" >3</td><td class="t_row_2">4</td><td class="t_row_2">5</td><td class="t_row_2">6</td><td class="t_row_2">7</td>
+                        <td class="t_row_2">1</td> <td class="t_row_2">2</td><td class="t_row_2" >3</td><td class="t_row_2">4</td><td class="t_row_2">5</td><td class="t_row_2">6</td><td class="t_row_2">7</td>
+                        <td class="t_row_2">1</td> <td class="t_row_2">2</td><td class="t_row_2" >3</td><td class="t_row_2">4</td><td class="t_row_2">5</td><td class="t_row_2">6</td><td class="t_row_2">7</td>
+                        <td class="t_row_2">1</td> <td class="t_row_2">2</td><td class="t_row_2" >3</td><td class="t_row_2">4</td><td class="t_row_2">5</td><td class="t_row_2">6</td><td class="t_row_2">7</td>
+                        <td class="t_row_2">1</td> <td class="t_row_2">2</td><td class="t_row_2" >3</td><td class="t_row_2">4</td><td class="t_row_2">5</td><td class="t_row_2">6</td><td class="t_row_2">7</td>
+                        <td class="t_row_2">1</td> <td class="t_row_2">2</td><td class="t_row_2" >3</td><td class="t_row_2">4</td><td class="t_row_2">5</td><td class="t_row_2">6</td><td class="t_row_2">7</td>
+                    </tr>
+                    </thead>
+                    <tbody id="group_one">
+                    </tbody>
+                </table>
+                <div id="r_4">
+                    <button class="a_1" type="button" id="firstPage">首 页</button>
+                    <button class="a_1"  type="button" id="prePage">上一页</button>
+                    <button class="a_1" type="button" id="nextPage">下一页</button>
+                    <button class="a_1" type="button" id="lastPage">末 页</button>
+                    第<h id="currentPage" class="a_1" ></h>页/共<h id="total_page" class="a_1"></h>页
+                    &nbsp&nbsp第
+                    <input class="a_1" id="aim_page" value="1" style="width:20px"/>&nbsp页
+                    <button class="a_1" type="button" id="jump">跳转</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="apply_classroom" class="easyui-window" title="申请教室" data-options="iconCls:'icon-save' ,closed:true ,resizable:true" style="width:500px;height:600px;padding:5px;">
+    <div class="easyui-layout" data-options="fit:true">
+        <div data-options="region:'center'" style="width:100%;padding:30px 60px;height: 600px">
+            <form id="apply_cr" class="easyui-form" method="post" data-options="novalidate:true" style="font-size: medium;height: 600px" >
+                <div style="margin-bottom:20px">
+                    <select id="buliding" class="easyui-combobox" name="bul" label="教学楼:" style="width:100%" panelHeight="100" required="true" editable="false"  reversed="true" labelWidth="150">
+                        <option value="SD">思东</option>
+                        <option value="SY">思源</option>
+                        <option value="YF">逸夫</option>
+                        <option value="Center">中心报告厅</option>
+                        <option value="SX">思西</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:20px">
+                    <select id="classid" class="easyui-combobox" name="bul" label="教室号:" style="width:100%" panelHeight="100" required="true" editable="false"  reversed="true" labelWidth="150">
+                        <option value="101">101</option>
+                        <option value="102">102</option>
+                        <option value="103">103</option>
+                        <option value="104">104</option>
+                        <option value="105">105</option>
+                        <option value="201">201</option>
+                        <option value="202">202</option>
+                        <option value="203">203</option>
+                        <option value="204">204</option>
+                        <option value="205">205</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:20px">
+                    <input id="r_data" class="easyui-datebox" label="日期:"  style="width:100%; "data-options="required:true" editable="false" labelWidth="150">
+                </div>
+                <div style="margin-bottom:20px">
+                    <select id="starttime" class="easyui-combobox" name="day" label="开始节次:" style="width:100%" panelHeight="100" required="true" editable="false"  reversed="true" labelWidth="150">
+                        <option value="1">第一节次</option>
+                        <option value="2">第二节次</option>
+                        <option value="3">第三节次</option>
+                        <option value="4">第四节次</option>
+                        <option value="5">第五节次</option>
+                        <option value="6">第六节次</option>
+                        <option value="7">第七节次</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:20px">
+                    <select id="endtime" class="easyui-combobox" name="day" label="结束节次:" style="width:100%" panelHeight="100" required="true" editable="false"  reversed="true" labelWidth="150">
+                        <option value="1">第一节次</option>
+                        <option value="2">第二节次</option>
+                        <option value="3">第三节次</option>
+                        <option value="4">第四节次</option>
+                        <option value="5">第五节次</option>
+                        <option value="6">第六节次</option>
+                        <option value="7">第七节次</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:20px">
+                    <input id="stuid" class="easyui-textbox" label="学号:"  style="width:100%; "data-options="required:true,labelWidth:150" >
+                </div>
+                <div style="margin-bottom:20px">
+                    <input id="inf" class="easyui-textbox" label="信息:"  style="width:100%; "data-options="required:true" labelWidth="150">
+                </div>
+
+            </form>
+        </div>
+        <div data-options="region:'south',border:false" style="text-align:center;padding:5px 0;">
+            <div style="margin-top: 50px">
+                <a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" href="javascript:void(0)" onclick="open_w();" style="width:80px">Ok</a>
+                <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0)" onclick="close_w()" style="width:80px">Cancel</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script>
+
+
+
+    //计算天数差的函数，通用
+    function  DateDiff(sDate1,  sDate2){    //sDate1和sDate2是2006-12-18格式
+        var  aDate,  oDate1,  oDate2,  iDays
+        aDate  =  sDate1.split("-")
+        oDate1  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0])    //转换为12-18-2006格式
+        aDate  =  sDate2.split("-")
+        oDate2  =  new  Date(aDate[1]  +  '-'  +  aDate[2]  +  '-'  +  aDate[0])
+        iDays  =  parseInt(Math.abs(oDate1  -  oDate2)  /  1000  /  60  /  60  /24)    //把相差的毫秒数转换为天数
+        return  iDays
+    }
+    //用于取路径上面传过来的值
+    $.getUrlParam = function getUrlParam(name) {
+// 构造一个含有目标参数的正则表达式对象
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+// 匹配目标参数
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)
+            return unescape(r[2]);;
+        return null; // 返回参数值
+    };
+</script>
+</html>

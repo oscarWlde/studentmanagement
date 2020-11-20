@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>选课</title>
+    <link rel="stylesheet" href="../css/select_course.css" type="text/css">
+    <script type="text/javascript" src="../js/table.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="../js/auto_create_table_select_course.js"></script>
+    <script type="text/javascript" src="../js/auto_create_table_select_course_selected.js"></script>
+    <script>
+        window.onload = function(){
+
+            data = [{//返回已选课程
+                Course_number: "AZQ-01",
+                course_name: "DATA_Structrue",
+                teacher:"Tom",
+                Academy:"SoftWare",
+                type:"Major",
+                time:"周三/第一节",
+                capity:"20/60",//剩余课程和课程容量
+                information:"英语"
+            }];
+            // var selected_course = [{
+            //     check: "1",
+            //     data: [{
+            //         course_id: "LXY-01",
+            //         course_name: "人工智能",
+            //         academy: "软件学院",
+            //         type: "主修",
+            //         time: "星期二 第六节",
+            //         capcity: "50",
+            //         information: "NULL"
+            //     }, {
+            //         course_id: "LXY-03",
+            //         course_name: "数据结构",
+            //         academy: "软件学院",
+            //         type: "主修",
+            //         time: "星期三 第六节",
+            //         capcity: "80",
+            //         information: "NULL"
+            //     }]
+            // }];
+     auto_create_table_course(data);
+            data_1 = [{
+                year: "2019",//此学生所有年份降序排列
+                semster: "Spring"
+            },
+                {
+                    year: "2018",
+                    semster: "Fall"
+                }];
+            var select=$("#year");
+            for (var j = 0; j < data_1.length; j++) {
+                //排序，从降序
+                //alert(data_1[j].year);
+                select.append("<option style='font-size: 1em' value=" + j + ">" + data_1[j].year + "/" + data_1[j].semster + "</option>");
+            }//选择下拉框
+            select.val(0);
+
+            var json= {Id: $.getUrlParam("id"), type: $.getUrlParam("type")};
+            $.ajax({
+                type: "post",
+                url: "/load_classroom_year",
+                data: JSON.stringify(json),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data_1, status) {
+                    //追加下拉框
+                    for (var j = 0; j < data_1.length; j++) {
+                        //排序，从降序
+                        //alert(data_1[j].year);
+                        select.append("<option style='font-size: 1em' value=" + j + ">" + data_1[j].year + "/" + data_1[j].semster + "</option>");
+                    }//选择下拉框
+                    select.val(0);
+                }
+            });
+
+            var json= {Id: $.getUrlParam("id"), type: $.getUrlParam("type")};
+            $.ajax({
+                type: "post",
+                url: "/load_select_course",
+                data: JSON.stringify(json),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data, status) {
+                    auto_create_table_course(data);
+                }
+            });
+
+            var json= {Id: $.getUrlParam("id"), type: $.getUrlParam("type")};
+            $.ajax({
+                type: "post",
+                url: "/load_selected_course",
+                data: JSON.stringify(json),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data, status) {
+                    auto_create_table_course_selected(data);
+                }
+            });
+
+        }
+    </script>
+</head>
+<body>
+
+<!--顶部开始-->
+<div id="c" class="">
+
+    <div id="head">
+        <div id="home_head">
+            <p id="home_head_name">17301066 孔德焱</p>
+        </div>
+        <div id="home_search" >
+            <ul>
+                <li><img src="../static/images/logo.png" height="50px" style="padding: 2px;"></li>
+                <li><a class="s" th:href="${home}">主页</a></li>
+                <li><a class="s" th:href="${course}">课程</a></li>
+                <li><a class="s" th:href="${select_course}">选课系统</a></li>
+                <li><a class="s" th:href="${Classroom}">教室资源</a></li>
+                <li><a class="s" th:href="${Project}">项目管理</a></li>
+                <li><a class="s" th:href="${Award}">奖学金申请</a></li>
+                <li><a class="s" th:href="${Information}">个人信息</a></li>
+            </ul>
+        </div>
+
+    </div>
+    <hr>
+
+    <div id="l"  class="">
+        <div id="l_1"  class="">
+            <div id="l_1_1" class="">
+                &nbsp
+                <b id="l_1_1_1">Welcome,Tom </b>
+            </div>
+            <div id="l_1_2" class="">
+                &nbsp
+                <b id="l_1_2_1">Service </b> <hr>
+                <u id="l_1_2_2">
+                    <li > <a class="l_select"  href="#" >选课</a></li> <hr>
+                    <li ><a class="l_select"  href="selected_course.html" >选课课表</a></li> <hr>
+                </u>
+            </div>
+        </div>
+    </div>
+
+    <div id="r"  class="">
+        <div id="r_1"  class="">
+            <div id="r_1_1" class="">
+                &nbsp
+                <b id="r_1_1_1">Course information</b>
+            </div>
+            <div id="r_1_2" class="">
+                <select style="font-size: 0.5em" id="year">
+
+                </select>&emsp;&emsp;
+                <select style="font-size: 0.5em" id="academy">
+                    <option style="font-size: 1em" value="0"> 全部</option>
+                    <option style="font-size: 1em" value="1"> 软件工程</option>
+                    <option style="font-size:1em"  value="2"> 经济管理</option>
+                    <option style="font-size: 1em"  value="3"> 工科 </option>
+                    <option  style="font-size: 1em" value="4">理科</option>
+                </select>&emsp;&emsp;
+                <select style="font-size: 0.5em" id="major_type">
+                    <option style="font-size: 1em" value="1"> 选修</option>
+                    <option style="font-size:1em"  value="2"> 主修</option>
+                </select>&emsp;&emsp;
+                <input  type="text" placeholder="course number" id="classroom_number" >  &nbsp
+                <input type="button"  value="Search" id="search" onclick="search_select_course();"/>
+            </div>
+            <div id="r_1_3" class="">
+
+                <table  id="senfe" width="100%"  border="1"  cellpadding="0" cellspacing="0" style="border-collapse:collapse">
+                    <thead>
+                    <tr >
+                        <td class="t_row_1">课程编号</td>
+                        <td class="t_row_1"  > 课程名字</td>
+                        <td class="t_row_1" >授课老师</td>
+                        <td class="t_row_1" >学院</td>
+                        <td class="t_row_1" >类型</td>
+                        <td class="t_row_1" >时间</td>
+                        <td class="t_row_1" >课程容量</td>
+                        <td class="t_row_1" >课程信息</td>
+                        <td class="t_row_1" >操作</td>
+                    </tr>
+
+                    </thead>
+                    <tbody id="group_one">
+
+                    </tbody>
+                </table>
+                <br>
+                <div id="r_4">
+                    <button class="a_1" type="button" id="firstPage">首 页</button>
+                    <button class="a_1"  type="button" id="prePage">上一页</button>
+                    <button class="a_1" type="button" id="nextPage">下一页</button>
+                    <button class="a_1" type="button" id="lastPage">末 页</button>
+                    第<h id="currentPage" class="a_1" ></h>页/共<h id="total_page" class="a_1"></h>页
+                    &nbsp&nbsp第
+                    <input class="a_1" id="aim_page" value="1" style="width:20px"/>&nbsp页
+                    <button class="a_1" type="button" id="jump">跳转</button>
+                </div>
+        </div>
+     </div>
+</div>
+</div>
+
+<!--顶部开始-->
+<div id="ce" class="">
+
+    <div id="lt"  class="">
+    </div>
+    <div id="rt"  class="">
+        <div id="rt_1"  class="">
+            <div id="rt_1_1" class="">
+                &nbsp
+                <b id="rt_1_1_1">Selected Course</b>
+            </div>
+            <div id="rt_1_2" class="">
+                <select style="font-size: 0.5em">
+                    <option style="font-size: 1em" value="1"> 2019/Spring</option>
+                    <option style="font-size:1em"  value="2"> 2018/Fall</option>
+                    <option style="font-size: 1em"  value="3"> 2018/Spring</option>
+                    <option  style="font-size: 1em" value="4"> 2017/Fall</option>
+                </select>&emsp;&emsp;
+                <select style="font-size: 0.5em">
+                    <option style="font-size: 1em" value="1"> 软件工程</option>
+                    <option style="font-size:1em"  value="2"> 经济管理</option>
+                    <option style="font-size: 1em"  value="3"> 工科 </option>
+                    <option  style="font-size: 1em" value="4">理科</option>
+                </select>&emsp;&emsp;
+                <select style="font-size: 0.5em">
+                    <option style="font-size: 1em" value="1"> 选修</option>
+                    <option style="font-size:1em"  value="2"> 主修</option>
+                </select>&emsp;&emsp;
+                <input  type="text" placeholder="course number" id="classroom_number_1" >  &nbsp
+                <input type="submit"  value="Search" id="search_1"/>
+            </div>
+            <div id="rt_1_3" class="">
+
+                <table  id="senfe_1" width="100%"  border="1"  cellpadding="0" cellspacing="0" style="border-collapse:collapse">
+                    <thead>
+                    <tr >
+                        <td class="t_row_1">课程编号</td>
+                        <td class="t_row_1"  > 课程名字</td>
+                        <td class="t_row_1" >授课老师</td>
+                        <td class="t_row_1" >学院</td>
+                        <td class="t_row_1" >类型</td>
+                        <td class="t_row_1" >时间</td>
+                        <td class="t_row_1" >课程容量</td>
+                        <td class="t_row_1" >课程信息</td>
+                        <td class="t_row_1" >操作</td>
+                    </tr>
+
+                    </thead>
+                    <tbody id="group_one_1">
+
+                    </tbody>
+                </table>
+                <br>
+                <div id="rt_4">
+                    <button class="a_1" type="button" id="firstPage_1">首 页</button>
+                    <button class="a_1"  type="button" id="prePage_1">上一页</button>
+                    <button class="a_1" type="button" id="nextPage_1">下一页</button>
+                    <button class="a_1" type="button" id="lastPage_1">末 页</button>
+                    第<h id="currentPage_1" class="a_1" ></h>页/共<h id="total_page_1" class="a_1"></h>页
+                    &nbsp&nbsp第
+                    <input class="a_1" id="aim_page_1" value="1" style="width:20px"/>&nbsp页
+                    <button class="a_1" type="button" id="jump_1">跳转</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>欢迎来到SC!</title>
+    <meta content="text/html; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" href="../../css/Teacher/layout_home.css">
+    <script src="../../js/Teacher/course.js"></script>
+<!--    <script src="../../js/Teacher/jquery-3.4.1.js"></script>-->
+    <script type="text/javascript" src="../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../easyui/locale/easyui-lang-zh_CN.js"></script>
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
+    <!--此处还可插入其他meta、样式单等信息-->
+</head>
+
+<body>
+    <div id="home_head">
+        <a href="Information.html" style="text-decoration: none;">
+            <p id="home_head_name" th:text="${t}"></p>
+        </a>
+    </div>
+    <div>
+        <ul class="lable_ul">
+            <li class="lable_li"><img src="../../res/icon/icno_logo.png" height="50px" style="padding: 2px;"></li>
+            <li class="lable_li"><a  class="lable" th:href="${t_home}">主页</a></li>
+            <li class="lable_li"><a class="lable" th:href="${t_course}">课程</a></li>
+            <li class="lable_li"><a class="lable" th:href="${t_Classroom}">教室资源</a></li>
+            <li class="lable_li"><a class="lable" th:href="${t_Project}">项目管理</a></li>
+        </ul>
+    </div>
+    <div style="padding-top: 15px;float: left ;width: 22%;">
+        <div class="easyui-panel" title="课程列表" style="width:100%;max-width:400px;padding:30px 60px;">
+            <li style="font-size: large;"><a style="text-decoration: none" th:href="${t_course}">当前教授课表</a></li>
+            <br>
+
+
+            <li style="font-size: large;"><a style="text-decoration: none" th:href="${t_SelectCourse}">选择课程</a></li>
+            <br>
+            <li style="font-size: large;"><a style="text-decoration: none" th:href="${t_SelectList}" >课程列表</a></li>
+            <br>
+            <li style="font-size: large;"><a style="text-decoration: none" th:href="${t_CourseTable}" >已选课程表</a></li>
+        </div>
+    </div>
+    <div style="padding-top: 15px;float: right ;width: 75%;padding-right:3% ;">
+        <fieldset style="width: 100%;height: 70%;">
+            <legend style="font-size: 20px;padding-bottom: 2px;"><b>学生名单</b></legend>
+            <table id="history_course_table" style="width: 100%; height: 60%; font-size: larger;border-collapse:collapse;text-align: center;" border="2">
+                <tr style="height: 50px;">
+                    <td style="width: 10%;">序号</td>
+                    <td style="width: 10%;">课程编号</td>
+                    <td style="width: 20%;">课程名称</td>
+                    <td style="width: 15%;">开课学院</td>
+                    <td style="width: 10%;">类型</td>
+                    <td style="width: 15%;">上课时间</td>
+                    <td style="width: 10%;">课程容量</td>
+                    <td style="width: 10%;"></td>
+                </tr>
+            </table>
+        </fieldset>
+    </div>
+</body>
+
+</html>

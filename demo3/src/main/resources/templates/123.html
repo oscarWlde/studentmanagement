@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Client Side Pagination in DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="../static/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../static/easyui/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../static/easyui/demo/demo.css">
+    <script type="text/javascript" src="../static/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../static/easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+<h2>Client Side Pagination in DataGrid</h2>
+<p>This sample shows how to implement client side pagination in DataGrid.</p>
+<div style="margin:20px 0;"></div>
+
+<table id="dg" title="Client Side Pagination" style="width:100%;height:600px" class="easyui-datagrid" data-options="
+				rownumbers:true,
+				singleSelect:false,
+				autoRowHeight:false,
+				pagination:true,
+				collapsible:true,
+				toolbar: '#tb',
+				remoteSort:false,
+				multiSort:true,
+				onClickCell: onClickCell,
+				onEndEdit: onEndEdit,
+				pageSize:10">
+    <thead>
+    <tr>
+        <th data-options="field:'ck',checkbox:true,align:'center',halign:'center'"  width="15%"></th>
+        <th data-options="field:'inv',align:'center',halign:'center',sortable:true" width="15%" >Inv No</th>
+        <th  data-options="field:'date',align:'center',halign:'center',sortable:true" width="15%" >Date</th>
+        <th  data-options="field:'name',align:'center',halign:'center',sortable:true"  width="15%">Name</th>
+        <th  data-options="field:'pid',
+                           formatter:function(value,row){
+							return row.productname;
+						},
+						editor:{
+							type:'combobox',
+							options:{
+								valueField:'pid',
+								textField:'p_name',
+								required:true
+							}
+						}"  width="15%">Product</th>
+
+    </tr>
+    </thead>
+
+</table>
+
+<div id="tb" style="height:auto">
+    Date From: <input class="easyui-datebox" style="width:110px">
+    To: <input class="easyui-datebox" style="width:110px">
+    Language:
+    <select class="easyui-combobox" panelHeight="auto" style="width:100px">
+        <option value="java">Java</option>
+        <option value="c">C</option>
+        <option value="basic">Basic</option>
+        <option value="perl">Perl</option>
+        <option value="python">Python</option>
+    </select>
+    <a href="#" class="easyui-linkbutton" iconCls="icon-search">Search</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="getSelections();">Accept</a>
+</div>
+
+
+<script>
+
+</script>
+<script>
+    var editIndex = undefined;
+    function endEditing(){
+        if (editIndex == undefined){return true}
+        if ($('#dg').datagrid('validateRow', editIndex)){
+            $('#dg').datagrid('endEdit', editIndex);
+            editIndex = undefined;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    function onClickCell(index, field){
+        if (editIndex != index){
+            if (endEditing()){
+                $('#dg').datagrid('selectRow', index)
+                    .datagrid('beginEdit', index);
+                var ed = $('#dg').datagrid('getEditor', {index:index,field:field});
+                if (ed){
+                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                }
+                editIndex = index;
+            } else {
+                setTimeout(function(){
+                    $('#dg').datagrid('selectRow', editIndex);
+                },0);
+            }
+        }
+    }
+    function onEndEdit(index, row){
+        var ed = $(this).datagrid('getEditor', {
+            index: index,
+            field: 'productid'
+        });
+        row.productname = $(ed.target).combobox('getText');
+    }
+    (function($){//调用函数
+        function pagerFilter(data){
+            if ($.isArray(data)){	// is array
+                data = {
+                    total: data.length,
+                    rows: data
+                }
+            }
+            var target = this;
+            var dg = $(target);
+            var state = dg.data('datagrid');
+            var opts = dg.datagrid('options');
+            if (!state.allRows){
+                state.allRows = (data.rows);
+            }
+            if (!opts.remoteSort && opts.sortName){
+                var names = opts.sortName.split(',');
+                var orders = opts.sortOrder.split(',');
+                state.allRows.sort(function(r1,r2){
+                    var r = 0;
+                    for(var i=0; i<names.length; i++){
+                        var sn = names[i];
+                        var so = orders[i];
+                        var col = $(target).datagrid('getColumnOption', sn);
+                        var sortFunc = col.sorter || function(a,b){
+                            return a==b ? 0 : (a>b?1:-1);
+                        };
+                        r = sortFunc(r1[sn], r2[sn]) * (so=='asc'?1:-1);
+                        if (r != 0){
+                            return r;
+                        }
+                    }
+                    return r;
+                });
+            }
+            var start = (opts.pageNumber-1)*parseInt(opts.pageSize);
+            var end = start + parseInt(opts.pageSize);
+            data.rows = state.allRows.slice(start, end);
+            return data;
+        }
+
+        var loadDataMethod = $.fn.datagrid.methods.loadData;
+        var deleteRowMethod = $.fn.datagrid.methods.deleteRow;
+        $.extend($.fn.datagrid.methods, {
+            clientPaging: function(jq){
+                return jq.each(function(){
+                    var dg = $(this);
+                    var state = dg.data('datagrid');
+                    var opts = state.options;
+                    opts.loadFilter = pagerFilter;
+                    var onBeforeLoad = opts.onBeforeLoad;
+                    opts.onBeforeLoad = function(param){
+                        state.allRows = null;
+                        return onBeforeLoad.call(this, param);
+                    };
+                    var pager = dg.datagrid('getPager');
+                    pager.pagination({
+                        onSelectPage:function(pageNum, pageSize){
+                            opts.pageNumber = pageNum;
+                            opts.pageSize = pageSize;
+                            pager.pagination('refresh',{
+                                pageNumber:pageNum,
+                                pageSize:pageSize
+                            });
+                            dg.datagrid('loadData',state.allRows);
+                        }
+                    });
+                    $(this).datagrid('loadData', state.data);
+                    if (opts.url){
+                        $(this).datagrid('reload');
+                    }
+                });
+            },
+            loadData: function(jq, data){
+                jq.each(function(){
+                    $(this).data('datagrid').allRows = null;
+                });
+                return loadDataMethod.call($.fn.datagrid.methods, jq, data);
+            },
+            deleteRow: function(jq, index){
+                return jq.each(function(){
+                    var row = $(this).datagrid('getRows')[index];
+                    deleteRowMethod.call($.fn.datagrid.methods, $(this), index);
+                    var state = $(this).data('datagrid');
+                    if (state.options.loadFilter == pagerFilter){
+                        for(var i=0; i<state.allRows.length; i++){
+                            if (state.allRows[i] == row){
+                                state.allRows.splice(i,1);
+                                break;
+                            }
+                        }
+                        $(this).datagrid('loadData', state.allRows);
+                    }
+                });
+            },
+            getAllRows: function(jq){
+                return jq.data('datagrid').allRows;
+
+            }
+        })
+    })(jQuery);
+
+    function getData(){
+        // //异步请求
+        var rows=[];
+        // $.ajax({
+        //     url:'/a/index',
+        //     type:"POST",
+        //     success:function(data){
+        //         //data为后台返回值。我们这里后台返回的是map类型。map.put("latiao":3.5);所以到前台取值方式：
+        //         alert(data[0].name);
+        //         for(var i=1; i<=data.length; i++){
+        //             alert("2");
+        //             var amount = Math.floor(Math.random()*1000);
+        //             var price = Math.floor(Math.random()*1000);
+        //             alert("3");
+        //             rows.push({
+        //                 inv: 'Inv No '+i,
+        //                 date: $.fn.datebox.defaults.formatter(new Date()),
+        //                 name: data[i-1].name,
+        //                 amount: amount,
+        //                 price: price,
+        //                 cost: amount*price,
+        //                 note: 'Note '+i,
+        //                 row:[
+        //                     { pid:"1",
+        //                         p_name:"g"},
+        //                     { pid:"2",
+        //                         p_name:"g"},
+        //                     { pid:"3",
+        //                         p_name:"g"}
+        //                 ]
+        //
+        //             });
+        //           alert("4");
+        //           alert(rows.toString());
+        //         }
+        //         $('#dg').datagrid({data:rows}).datagrid('clientPaging');
+        //
+        //     }
+        // });
+    }
+
+    $(function(){
+        getData();
+    });
+    function cellStyler(value,row,index){
+        if (value <1000 ){
+            return 'background-color:#ffee00;color:red;';
+        }
+    }
+    function numSorter(a,b){
+        a = parseFloat(a);
+        b = parseFloat(b);
+        return a==b?0:(a>b?1:-1);
+    }
+    function getSelections(){
+        //获取已选的科目
+        var ss={check:'sumitCourse',data:[]};
+        var rows = $('#dg').datagrid('getSelections');
+        for(var i=0; i<rows.length; i++){
+            var row = rows[i];
+            ss.data[i]={inv:row.inv,price:row.price,note:row.note,state:'s'};
+        }
+        alert(JSON.stringify(ss));
+        // // //异步请求
+        // var json=
+        // $.ajax({
+        //     url:'',,
+        //     type:"POST"
+        //     data:{"plancode":plancode},
+        //     success:function(data){
+        //         //data为后台返回值。我们这里后台返回的是map类型。map.put("latiao":3.5);所以到前台取值方式：
+        //         var  price=data.latiao;
+        //     }
+        // });
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>选课</title>
+
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="../easyui/demo/demo.css">
+    <script type="text/javascript" src="../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../easyui/locale/easyui-lang-zh_CN.js"></script>
+
+    <style>
+        body{
+            margin:0px auto;padding: 0px
+        }
+        #c{width: 100%;height: 700px;margin: 5px }
+        #head{width:100%;height:14%;margin: 5px;}
+        #home_head{width: 100%;height: 50%;background-color: #b31b1b;}
+        #home_head_name{ margin: 0;padding-top: 4px;padding-left: 4px;padding-bottom: 4px;font-size: 30px;color: #FFFFFF;font-weight: bolder;    font-family: STKaiti;}
+        #home_search{width: 100%;height: 50%;}
+        ul {list-style-type: none;margin: 0;padding-top: 1px;padding-left: 0;overflow: hidden;}
+        ul li {float: left;height: 50px;font-family: STKaiti;font-weight: bolder;}
+        .s:link,
+        .s:visited {display: block;width: 120px;height: 50px;line-height: 50px;font-weight: bold;color: #000000;background-color: #FFFFFF;text-align: center;text-decoration: none;text-transform: uppercase;font-size: 20px;}
+        .s:hover,
+        .s:active {color: #FFFFFF;background-color: #cc0000;}
+        #l{width: 15%;height:86%;margin: 5px;float:left; font-family: STKaiti;
+        font-weight: bolder;font-size: 26px;padding: 0;}
+        #l_1{width: 100%;height: 45%;margin: 5px;border: 1px solid #949699}
+        #l_1_1{width:100%;height: 10%;border: 1px solid #949699;background-color: #6a6e77;line-height: 50%;letter-spacing: 1px;}
+        #l_1_2{width: 97%;height:40%;margin-top: 10px;font-size: 1em}
+        #l_1_1_1{    font-weight: bolder;    font-family: STKaiti;font-size:17px;color: white;text-align: left;}
+        #l_1_2_2{color: #2d9bfb;text-decoration: none;text-indent:1em;}
+        .l_select{font-size: 0.6em;text-decoration: none}
+        #l_1_2_1{font-size: 0.7em}
+        #r{width:80%;height:100%;margin: 5px;float:left;}
+    </style>
+
+    <script>
+
+    </script>
+</head>
+<body>
+
+<!--顶部开始-->
+<div id="c" class="">
+
+    <div id="head">
+        <div id="home_head">
+            <p id="home_head_name" th:text="${id}"></p>
+        </div>
+        <div>
+            <ul>
+                <li><img src="../images/logo.png" height="50px" style="padding: 2px;"></li>
+                <li><a class="s" th:href="${home}">主页</a></li>
+                <li><a class="s" th:href="${course}">课程</a></li>
+                <li><a class="s" th:href="${select_course}">选课系统</a></li>
+                <li><a class="s" th:href="${Classroom}">教室资源</a></li>
+                <li><a class="s" th:href="${Project}">项目管理</a></li>
+                <li><a class="s" th:href="${Award}">奖学金申请</a></li>
+                <li><a class="s" th:href="${Information}">个人信息</a></li>
+            </ul>
+        </div>
+
+    </div>
+    <hr>
+    <div id="l"  class="">
+        <div id="l_1"  class="">
+            <div id="l_1_1" class="">
+                &nbsp
+                <b id="l_1_1_1">欢迎你！ </b>
+            </div>
+            <div id="l_1_2" class="">
+                &nbsp
+                <b id="l_1_2_1">服务</b><hr>
+                <u id="l_1_2_2">
+                    <li > <a class="l_select" th:href="${select_course}" >选课</a></li> <hr>
+                    <li ><a class="l_select"  th:href="${selectedList}" >已选课程</a></li> <hr>
+                    <li ><a class="l_select"  th:href="${selected_course}" >选课课表</a></li> <hr>
+                </u>
+            </div>
+        </div>
+    </div>
+
+    <div id="r"  class="">
+        <table id="dg" title="选课" style="width:100%;height:500px" class="easyui-datagrid" data-options="
+				rownumbers:true,
+				singleSelect:false,
+				autoRowHeight:false,
+				pagination:true,
+				collapsible:true,
+				toolbar: '#tb',
+				remoteSort:false,
+				multiSort:true,
+				pageSize:10,
+                rowStyler: function(index,row){
+                 if (row.state =='已申请'){
+                    return 'background-color:gray;color:#fff;font-weight:bold;';
+                  }
+               }"
+                 >
+            <thead>
+            <tr>
+                <th data-options="field:'ck',checkbox:true,align:'center',halign:'center'" ></th>
+                <th data-options="field:'courseNum',align:'center',halign:'center',sortable:true" width="12%" >课程编号</th>
+                <th  data-options="field:'courseName',align:'center',halign:'center',sortable:true"  width="12%">课程名字</th>
+                <th  data-options="field:'teacherName',align:'center',halign:'center',sortable:true"  width="12%">老师</th>
+                <th  data-options="field:'type',align:'center',halign:'center',sortable:true"  width="12%">类型</th>
+                <th  data-options="field:'limitGrade',align:'center',halign:'center',sortable:true"  width="12%">限选年级</th>
+                <th  data-options="field:'academyName',align:'center',halign:'center',sortable:true"  width="12%">学院</th>
+                <th  data-options="field:'capacity',align:'center',halign:'center',sortable:true"  width="8%">已选人数</th>
+                <th  data-options="field:'courseMemberNum',align:'center',halign:'center',sortable:true"  width="8%">最大人数</th>
+
+                <th  data-options="field:'state',align:'center',halign:'center',sortable:true"  width="12%">状态</th>
+            </tr>
+            </thead>
+        </table>
+        <div id="tb" style="height:auto">
+            学院:
+            <select id="academy" class="easyui-combobox" panelHeight="auto" style="width:100px">
+                <option value="software">软件学院</option>
+                <option value="computer">计算机学院</option>
+            </select>
+            类型:
+            <select id="type" class="easyui-combobox" panelHeight="auto" style="width:100px">
+                <option value="1">主修</option>
+                <option value="2">选修</option>
+            </select>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="getData()">查询</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="getSelections();">提交</a>
+        </div>
+    </div>
+</div>
+<script>
+
+    (function($){//调用函数
+        function pagerFilter(data){
+            if ($.isArray(data)){	// is array
+                data = {
+                    total: data.length,
+                    rows: data
+                }
+            }
+            var target = this;
+            var dg = $(target);
+            var state = dg.data('datagrid');
+            var opts = dg.datagrid('options');
+            if (!state.allRows){
+                state.allRows = (data.rows);
+            }
+            if (!opts.remoteSort && opts.sortName){
+                var names = opts.sortName.split(',');
+                var orders = opts.sortOrder.split(',');
+                state.allRows.sort(function(r1,r2){
+                    var r = 0;
+                    for(var i=0; i<names.length; i++){
+                        var sn = names[i];
+                        var so = orders[i];
+                        var col = $(target).datagrid('getColumnOption', sn);
+                        var sortFunc = col.sorter || function(a,b){
+                            return a==b ? 0 : (a>b?1:-1);
+                        };
+                        r = sortFunc(r1[sn], r2[sn]) * (so=='asc'?1:-1);
+                        if (r != 0){
+                            return r;
+                        }
+                    }
+                    return r;
+                });
+            }
+            var start = (opts.pageNumber-1)*parseInt(opts.pageSize);
+            var end = start + parseInt(opts.pageSize);
+            data.rows = state.allRows.slice(start, end);
+            return data;
+        }
+
+        var loadDataMethod = $.fn.datagrid.methods.loadData;
+        var deleteRowMethod = $.fn.datagrid.methods.deleteRow;
+        $.extend($.fn.datagrid.methods, {
+            clientPaging: function(jq){
+                return jq.each(function(){
+                    var dg = $(this);
+                    var state = dg.data('datagrid');
+                    var opts = state.options;
+                    opts.loadFilter = pagerFilter;
+                    var onBeforeLoad = opts.onBeforeLoad;
+                    opts.onBeforeLoad = function(param){
+                        state.allRows = null;
+                        return onBeforeLoad.call(this, param);
+                    }
+                    var pager = dg.datagrid('getPager');
+                    pager.pagination({
+                        onSelectPage:function(pageNum, pageSize){
+                            opts.pageNumber = pageNum;
+                            opts.pageSize = pageSize;
+                            pager.pagination('refresh',{
+                                pageNumber:pageNum,
+                                pageSize:pageSize
+                            });
+                            dg.datagrid('loadData',state.allRows);
+                        }
+                    });
+                    $(this).datagrid('loadData', state.data);
+                    if (opts.url){
+                        $(this).datagrid('reload');
+                    }
+                });
+            },
+            loadData: function(jq, data){
+                jq.each(function(){
+                    $(this).data('datagrid').allRows = null;
+                });
+                return loadDataMethod.call($.fn.datagrid.methods, jq, data);
+            },
+            deleteRow: function(jq, index){
+                return jq.each(function(){
+                    var row = $(this).datagrid('getRows')[index];
+                    deleteRowMethod.call($.fn.datagrid.methods, $(this), index);
+                    var state = $(this).data('datagrid');
+                    if (state.options.loadFilter == pagerFilter){
+                        for(var i=0; i<state.allRows.length; i++){
+                            if (state.allRows[i] == row){
+                                state.allRows.splice(i,1);
+                                break;
+                            }
+                        }
+                        $(this).datagrid('loadData', state.allRows);
+                    }
+                });
+            },
+            getAllRows: function(jq){
+                return jq.data('datagrid').allRows;
+            }
+        })
+    })(jQuery);
+
+
+    function getData(){
+        var json= {id: $.getUrlParam("id"), type: $("#type").val(),state:"1",academyName:$("#academy").val()};
+
+        $.ajax({
+            type: "post",
+            url: "/student/select/course",
+            data: JSON.stringify(json),
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data_1, status) {
+                var course=[];
+                console.log(data_1.data1.length);
+                for(var i=0;i<data_1.data1.length;i++){
+                   console.log(data_1.data1[i].academyName);
+                   var ojson={};
+                   ojson.academyName=data_1.data1[i].academyName;
+                   ojson.capacity=data_1.data1[i].capacity;
+                   ojson.courseMemberNum=data_1.data1[i].courseMemberNum;
+                   ojson.courseName=data_1.data1[i].courseName;
+                   ojson.courseNum=data_1.data1[i].courseNum;
+                   ojson.limitGrade=data_1.data1[i].limitGrade;
+                   ojson.teacherName=data_1.data1[i].teacherName;
+                    ojson.capacity=data_1.data1[i].capacity;
+                   ojson.time=data_1.data1[i].time;
+                   if(data_1.data1[i].type=="1"){
+                       ojson.type="主修";
+                   }else{
+                       ojson.type="选修";
+                   }
+
+                   ojson.state="申请";
+
+                   for(var j=0;j<data_1.check.length;j++){
+                       if(data_1.data1[i].courseNum==data_1.check[j].courseNum){
+                           ojson.state="已申请";
+                           break;
+                       }
+                   }
+                  course.push(ojson);
+               }
+                console.log(data_1.data1);
+                //data为后台返回值。我们这里后台返回的是map类型。map.put("latiao":3.5);所以到前台取值方式：
+                $('#dg').datagrid({data:course}).datagrid('clientPaging');
+
+            }
+        });
+    }
+    $(function(){
+       getData();
+    });
+
+    function cellStyler(value,row,index){
+        if (value <1000 ){
+            return 'background-color:#ffee00;color:red;';
+        }
+    }
+    function numSorter(a,b){
+        a = parseFloat(a);
+        b = parseFloat(b);
+        return a==b?0:(a>b?1:-1);
+    }
+    function getSelections(){
+        //获取已选的科目
+
+        var rows = $('#dg').datagrid('getSelections');
+
+        for(var i=0;i<rows.length;i++){
+            if(rows[i].capacity==rows[i].courseMemberNum){
+                alert("此课程已满");
+                return "";
+
+            }
+            rows[i].stuId=$.getUrlParam("id");
+            rows[i].year="2019";
+            rows[i].semester="2";
+            rows[i].state="1";
+            if(  rows[i].type=="主修"){
+                rows[i].type="1";
+            }else {
+                rows[i].type="2";
+            }
+        }
+        console.log(rows);
+        // //异步请求
+        $.ajax({
+            type: "post",
+            url: "/student/refresh/inserted/information",
+            data: JSON.stringify(rows),
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data_1, status) {
+                alert(JSON.stringify(data_1));
+                getData();
+            }});
+
+    }
+
+    $.getUrlParam = function getUrlParam(name) {
+        // 构造一个含有目标参数的正则表达式对象
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        // 匹配目标参数
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)
+            return unescape(r[2]);
+        return null; // 返回参数值
+    };
+</script>
+</body>
+
+
+</html>

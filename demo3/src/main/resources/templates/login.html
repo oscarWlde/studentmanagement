@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>学生管理系统</title>
+    <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+    <link rel="stylesheet" type="text/css" href="/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css">
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <style>
+        *{ont-family: STXingkai;font-weight: bolder;font-size: 20px}
+        /*顶部*/
+        .top{width: 100%;height: 15%; /*位置固定*/position: absolute;background: #ffffff;z-index: 0;}
+        .hr_1{width: 100%;top:15%;border:none; /*无边框*/border-top:1px solid #b31b1b;/*粗细，实线，颜色*/position: absolute;z-index: 1;}
+        #logo {float: left;width: 80px;height: 80px; /*border: 1px solid #b31b1b;*/}
+        #logo_name{margin-left: 15px;float: left;width: 500px;height: 80px;line-height:90px;}
+        #logo_name_t{margin: 0 auto;font-size: 50px;font-family: STXingkai;}
+        #login_zy{float: left;position: absolute;bottom: 10px;right: 50px;}
+        #login_zy_t{color: #bdbdbd;margin: 0 auto;font-size: 30px;font-family: STXingkai;}
+        /*中部*/
+        .center{margin-top: 10%;width: 100%;height: 70%; /*位置固定*/border-radius:5px;position: absolute;background: #ffffff;z-index: 0; /*border: 1px solid #b31b1b;*/}
+        #center_img {margin-top: 50px;margin-left: 8%;float: left;width: 50%;height: 350px; /*border: 1px solid #b31b1b;*/}
+        #messgge{margin-top: 20px;margin-left: 10%;float: left;width: 15%;height:400px;}
+        #title{width: 350px;height: 40px;background-color: #b31b1b;text-align:center;line-height:40px;border: 0.5px solid #b31b1b;border-top-right-radius: 8px;border-top-left-radius: 8px;}
+        #title_t{color: #ffffff;font-size: 30px;font-family: STXingkai;}
+        #form_1{width: 350px;height: 350px;border: 0.5px solid #1b0d3d;text-align:center;line-height:20px;background-color: #f1f1f1;border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;}
+        #sumit_1{width: 100px;height: 40px;background-color: #b31b1b;border-radius:8px;border: 0.5px solid #b31b1b;color: white;font-size: 30px;font-family: STXingkai;}
+        #foget_psw{color: #1b0d3d;font-family: STXingkai;font-size: 20px;}
+        #pro{
+            position: absolute;
+            top: 30%;
+            left: 30%;
+            font-family: STXingkai;
+            display: none;
+        }
+    </style>
+
+</head>
+<body>
+<!-- 顶部开始-->
+
+<div class="top">
+    <div id="logo"> <img src="../images/logo.png" alt="logo" width="90px" height="90px">  </div>
+    <div id="logo_name"><b id="logo_name_t">学生管理系统</b></div>
+    <div id="login_zy"><b id="login_zy_t" >登陆主页</b></div>
+</div>
+<hr class="hr_1">
+<!-- 顶部结束-->
+<!-- 中部开始-->
+<div class="center" >
+
+    <div id="center_img"><img src="../images/zy_center.png" alt="中间图片"  width="500px" height="350px">  </div>
+    <div id="messgge">
+        <div id="title" ><b id="title_t">校园信息门户</b></div>
+
+        <div id="form_1">
+            <form name="Person" height = "350" width = "400" onsubmit="return onSmText();" >
+                <br> <br>
+                用户名:<input id="user" type = "text" style="font-family: 'Microsoft YaHei';font-size: 15px;font-weight: normal">&nbsp&nbsp<b id="tip_1" style="display: none;font-size: 20px;color: #b31b1b">必填</b> <br><br>
+                密&nbsp&nbsp&nbsp码:<input id="psw" type="password" style="font-family: 'Microsoft YaHei';font-size: 15px;font-weight: normal">&nbsp&nbsp<b id="tip_2" style="display: none;font-size: 20px;color: #b31b1b">必填</b>
+                <br><br>
+                身份:<input type = "radio" name = "a" value = "manager">管理员
+                <input type = "radio" name = "a" value = "teacher">教师
+                <input type = "radio" name = "a" value = "student">学生
+                <br><b id="tip_3" style="display: none;font-size: 20px;color: #b31b1b">必选</b><br></br></br>
+                <input type = "submit" value = "登陆" id="sumit_1">&nbsp&nbsp&nbsp
+                <a href="#"  style="text-decoration:none;"><b id="foget_psw" onclick ="p();">忘记密码？</b></a>
+                </br>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="apply_classroom" class="easyui-window" title="Window Layout" data-options="iconCls:'icon-save' ,closed:true ,resizable:true" style="width:400px;height:300px;padding:5px;">
+    <div class="easyui-layout" data-options="fit:true">
+        <div data-options="region:'center'" style="width:100%;padding:30px 60px;height: 600px">
+            <form id="apply_cr" class="easyui-form" method="post" data-options="novalidate:true" style="font-size: medium;height:auto" >
+                <div style="margin-bottom:20px">
+                    <input id="stuId" class="easyui-textbox"  label="学号:" style="width:90%" panelHeight="100" required="true"  reversed="true" />
+
+                </div>
+                <div style="margin-bottom:20px">
+                    <input id="p" class="easyui-passwordbox"   label="新密码:" style="width:90%" panelHeight="100" required="true"  reversed="true" />
+                </div>
+                <div style="margin-bottom:20px">
+                    <input id="email" class="easyui-textbox" name="email" style="width:100%;suffix:'@" data-options="label:'邮箱:',required:true,validType:'email',">
+                </div>
+            </form>
+        </div>
+        <div data-options="region:'south',border:false" style="text-align:center;padding:5px 0;">
+            <div style="margin-top: 50px">
+                <a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" href="javascript:void(0)" onclick="open_w();" style="width:80px">Ok</a>
+                <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0)" onclick="close_w()" style="width:80px">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+   function p() {
+       $("#apply_classroom").window('open');
+
+   }
+   function open_w() {
+       //传参
+       var json={name:user.val(),psw:psw.val(),person:person.val()};
+       $.ajax({
+           type: "post",
+           url: "/email",
+           data:JSON.stringify(json),
+           dataType: "json",
+           contentType:"application/json",
+           success:function (data,status) {
+                 var yzm=data.data[0].yzm;
+                 $("#apply_classroom").window('close');
+
+                 var yzm1=prompt("请输入验证码");
+                 if(yzm1==yzm){
+                      alert("修改成功")
+                 }else {
+                     alert("修改失败");
+                 }
+
+           }
+       });
+
+
+
+
+   }
+   function close_w() {
+       $("#apply_classroom").window('close');
+   }
+    //提交
+    function  onSmText() {
+        var tip_1=$("#tip_1");
+        var tip_2=$("#tip_2");
+        var tip_3=$("#tip_3");
+        var user=$("#user");
+        var psw=$("#psw");
+        var person=$("input[name='a']:checked");
+        var tag=0;
+        tip_1.css("display","none");
+        tip_2.css("display","none")
+        tip_3.css("display","none")
+        if(user.val()==""){
+            tip_1.css("display","inline");
+            tag=1;
+        }
+        if(psw.val()=="" ){
+            tip_2.css("display","inline");
+            tag=1;
+        }
+        if(person.val()==null){
+            tip_3.css("display","inline");
+            tag=1;
+        }
+        if(tag==1){
+            return false;
+        }else {
+            var json={name:user.val(),psw:psw.val(),person:person.val()};
+            //提交登陆信息并且验证
+            $.ajax({
+                type: "post",
+                url: "/login/check",
+                data:JSON.stringify(json),
+                dataType: "json",
+                contentType:"application/json",
+                success:function (data,status) {
+                    if("true"==data.check){//验证成功 跳转
+                        if(person.val()=="student"){
+                            window.location.href = "/Home?id="+user.val()+"&type="+person.val();
+                        }
+                        else if(person.val()=="teacher") {
+                            window.location.href = "/Teacher/Home?id="+user.val()+"&type="+person.val();
+                        }
+                        else if (person.val()=="manager"){
+                            window.location.href = "/A_Home?id="+user.val()+"&type="+person.val();
+                        }
+                    }
+                    else{
+                        alert("用户不存在或者密码错误");
+                    }
+                }
+            });
+            return false;
+        }
+    }
+</script>

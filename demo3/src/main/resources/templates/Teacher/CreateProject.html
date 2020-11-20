@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>欢迎来到SC!</title>
+    <meta content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
+    <link type="text/css" rel="stylesheet" href="../../css/Teacher/layout_home.css">
+    <link type="text/css" rel="stylesheet" href="../../css/Teacher/layout_project.css">
+    <script type="text/javascript" src="../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../easyui/locale/easyui-lang-zh_CN.js"></script>
+<!--    <script src="../../js/Teacher/home.js"></script>-->
+    <!--此处还可插入其他meta、样式单等信息-->
+</head>
+
+<body>
+    <div id="home_head">
+        <a href="Information.html" style="text-decoration: none;">
+            <p id="home_head_name" th:text="${t}"></p>
+        </a>
+    </div>
+    <div>
+        <ul class="lable_ul">
+            <li class="lable_li"><img src="../../images/logo.png" height="50px" style="padding: 2px;"></li>
+            <li class="lable_li"><a  class="lable" th:href="${t_home}">主页</a></li>
+            <li class="lable_li"><a class="lable" th:href="${t_course}">课程</a></li>
+            <li class="lable_li"><a class="lable" th:href="${t_Classroom}">教室资源</a></li>
+            <li class="lable_li"><a class="lable" th:href="${t_Project}">项目管理</a></li>
+        </ul>
+    </div>
+    <hr>
+    <div style="padding-top: 15px;float: left ;width: 22%;">
+        <div class="easyui-panel" title="项目总揽" style="width:100%;max-width:400px;padding:30px 60px;">
+            <li style="font-size: large;text-decoration: none"><a style="text-decoration: none" th:href="${t_Project}">项目列表</a></li>
+            <br>
+            <li style="font-size: large;text-decoration: none"><a style="text-decoration: none" th:href="${t_CreateProject}" >创建项目</a></li>
+        </div>
+
+    </div>
+    <div style="padding-top: 15px;float: right ;width: 75%;padding-right:15% ;">
+
+        <div class="easyui-panel" title="申请项目" style="width:100%;padding:30px 60px;">
+            <form id="T_project" class="easyui-form" method="post" data-options="novalidate:true" >
+                <div style="margin-bottom:20px">
+                    <input id="project_num" class="easyui-textbox" name="name" style="width:100%" data-options="label:'项目编号:',required:true">
+                </div>
+                <div style="margin-bottom:20px">
+                    <input id="project_name" class="easyui-textbox" name="number" style="width:100%" data-options="label:'项目名称:',required:true">
+                </div>
+                <div style="margin-bottom:20px">
+                    <select id="project_type" class="easyui-combobox" name="性别" label="项目类型" style="width:100%" panelHeight="100" required="true" editable="false"  reversed="true">
+                        <option value="product">实物类</option>
+                        <option value="paper">论文类</option>
+                        <option value="software">软件类</option>
+                    </select>
+                </div>
+
+                <div style="margin-bottom:20px">
+                    <input id="teacher_num" class="easyui-textbox" name="subject" style="width:100%" data-options="label:'教师编号:',required:true">
+                </div>
+                <div style="margin-bottom:20px">
+                    <input id="teacher_Name" class="easyui-textbox" name="teacher_name" style="width:100%" data-options="label:'教师姓名:',required:true">
+                </div>
+                <div style="margin-bottom:20px">
+                    <select id="studentNum" class="easyui-combobox" name="学生人数" label="学生人数" style="width:100%" panelHeight="100" required="true" editable="false"  reversed="true">
+                        <option value="5">5</option>
+                        <option value="4">4</option>
+                        <option value="3">3</option>
+                        <option value="2">2</option>
+                        <option value="1">1</option>
+                    </select>
+                </div>
+                <div style="margin-bottom:20px">
+                    <input id="start_project" class="easyui-datebox" label="开始时间:"  style="width:100%; "data-options="required:true" editable="false">
+                </div>
+                <div style="margin-bottom:20px">
+                    <input id="end_project" class="easyui-datebox" label="结束时间:"  style="width:100%; "data-options="required:true" editable="false">
+                </div>
+
+            </form>
+            <div style="text-align:center;padding:5px 0">
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm();" style="width:80px">Submit</a>
+                <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm();" style="width:80px">Clear</a>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+<script>
+     function submitForm() {
+         $('#T_project').form('submit',{
+             onSubmit:function(){
+
+                 if($(this).form('enableValidation').form('validate')==true){
+                     var json={
+                         projectNum:$("#project_num").val(),
+                         projectName:$("#project_name").val(),
+                         projectType:$("#project_type").val(),
+                         teacherNum:$("#teacher_num").val(),
+                         teacherName:$("#teacher_Name").val(),
+                         studentNum:$("#studentNum").val(),
+                        startTime:$("#start_project").val(),
+                         endTime:$("#end_project").val()
+                     };
+                    console.log(JSON.stringify(json));
+                     $.ajax({
+                         type: "post",
+                         url: "/teacher/create/project",
+                         data:JSON.stringify(json),
+                         dataType: "json",
+                         contentType:"application/json",
+                         success:function (data,status) {
+                            alert("申请成功");
+                         }
+                     });
+                 }
+                 return $(this).form('enableValidation').form('validate');
+             }
+         });
+     }
+     function clearForm() {
+         $('#T_project').form('clear');
+     }
+</script>
+</html>

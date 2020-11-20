@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<style>
+    .icon-add:before{
+        content: "\f055";
+    }
+
+</style>
+</head>
+<body>
+<table id="add_course_dg" class="easyui-datagrid" title="课程管理" style="width:100%;height:100%"
+       data-options="
+               rownumbers:true,
+				iconCls: 'fa fa-pencil-square-o',
+				singleSelect: true,
+				toolbar: '#tb_course',
+				onClickCell: onClickCell,
+				onEndEdit: onEndEdit,
+				pagination:true,
+				pageSize:10
+			">
+    <thead>
+    <tr>
+
+        <th id="course_combobox" data-options="field:'courseNameid',
+						formatter:function(value,row){
+							return row.courseName;
+						},
+						editor:{
+							type:'combobox',
+							options:{
+								valueField:'courseNameid',
+								textField:'courseName',
+								data: [{courseNameid: '0', courseName: 'DB'},
+								{ courseNameid: '1', courseName: 'OP' },
+								{ courseNameid: '2', courseName: 'NT' }],
+								required:true
+							}
+						}"  width="10%">课程名</th>
+        <th data-options="field:'courseOrder',editor:'text'" width="7%">课程编号</th>
+        <th data-options="field:'capacity',width:80,required:true,editor:{type:'textbox' }" width="5%">课程容量</th>
+        <th data-options="field:'credit',width:80,align:'right',editor:{type:'numberbox'}" width="5%">课程学分</th>
+        <th data-options="field:'time',width:80,align:'right',editor:{type:'numberbox'}" width="5%">课程学时</th>
+        <th data-options="field:'language',width:250,editor:'text'" width="7%">语言</th>
+        <th data-options="field:'limitGrade',width:250,editor:'text'" width="5%">限选年级</th>
+        <th data-options="field:'type',width:60,align:'center',editor:'text'" width="5%">类型</th>
+        <th data-options="field:'year',width:60,align:'center',editor:'text'" width="10%">年份</th>
+        <th data-options="field:'semster',width:60,align:'center',editor:'text'" width="10%">季度</th>
+        <th data-options="field:'classroomId',width:60,align:'center',editor:'text'" width="5%">教室编号</th>
+        <th id="weekdata" data-options="field:'weekdataid',
+						formatter:function(value,row){
+							return row.weekdataName;
+						},
+						editor:{
+							type:'combobox',
+							options:{
+								valueField:'weekdataid',
+								textField:'weekdataName',
+								data: [{weekdataid: '1', weekdataName: '星期一'},
+								{ weekdataid: '2', weekdataName: '星期二' },
+								{ weekdataid: '3', weekdataName: '星期三' },
+								{ weekdataid: '4', weekdataName: '星期四' },
+								{ weekdataid: '5', weekdataName: '星期五' },
+								{ weekdataid: '6', weekdataName: '星期六' },
+								{ weekdataid: '7', weekdataName: '星期日' }],
+								required:true
+							}
+						}"  width="10%">星期</th>
+        <th id="starttime" data-options="field:'starttimeid',
+						formatter:function(value,row){
+							return row.starttimeName;
+						},
+						editor:{
+							type:'combobox',
+							options:{
+								valueField:'starttimeid',
+								textField:'starttimeName',
+								data: [{starttimeid: '1', starttimeName: '第一节次'},
+								{starttimeid: '2', starttimeName: '第二节次' },
+								{starttimeid: '3', starttimeName: '第三节次' },
+								{starttimeid: '4',starttimeName: '第四节次' },
+								{starttimeid: '5', starttimeName: '第五节次' },
+								{ starttimeid: '6', starttimeName: '第六节次' },
+								{ starttimeid: '7', starttimeName: '第七节次' }],
+								required:true
+
+							}
+						}"  width="10%">节次</th>
+        <th data-options="field:'information',width:60,align:'center',editor:'text'" width="8%">附加信息</th>
+    </tr>
+    </thead>
+</table>
+<div id="tb_course" style="height:auto">
+    时间：
+    <select id="select_course_year" class="easyui-combobox" panelHeight="auto" style="width:15%">
+        <option value="2020-1">2020/春季 </option>
+        <option value="2019-2">2019/秋季</option>
+        <option value="2019-1">2019/春季 </option>
+        <option value="2018-2">2018/秋季</option>
+        <option value="2018-1">2018/春季</option>
+        <option value="2017-2">2017/秋季 </option>
+        <option value="2017-1">2017/春季 </option>
+    </select>
+    年级:
+    <select id="select_Nianji" class="easyui-combobox" panelHeight="auto" style="width:15%">
+        <option value="17">17级</option>
+        <option value="18">18级</option>
+        <option value="19">19级</option>
+        <option value="20">20级</option>
+    </select>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-search',plain:true" onclick="manager_Search_Course();">查询</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-plus-square',plain:true" onclick="append()">添加</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-minus-square',plain:true" onclick="removeit()">移除</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-floppy-o',plain:true" onclick="acceptit()">保存</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'fa fa-undo',plain:true" onclick="reject()">撤销</a>
+<!--    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="getChanges()">GetChanges</a>-->
+</div>
+
+<script type="text/javascript">
+
+
+     (function($){//调用函数
+         function pagerFilter(data){
+             if ($.isArray(data)){	// is array
+                 data = {
+                     total: data.length,
+                     rows: data
+                 }
+             }
+             var target = this;
+             var dg = $(target);
+             var state = dg.data('datagrid');
+             var opts = dg.datagrid('options');
+             if (!state.allRows){
+                 state.allRows = (data.rows);
+             }
+             if (!opts.remoteSort && opts.sortName){
+                 var names = opts.sortName.split(',');
+                 var orders = opts.sortOrder.split(',');
+                 state.allRows.sort(function(r1,r2){
+                     var r = 0;
+                     for(var i=0; i<names.length; i++){
+                         var sn = names[i];
+                         var so = orders[i];
+                         var col = $(target).datagrid('getColumnOption', sn);
+                         var sortFunc = col.sorter || function(a,b){
+                             return a==b ? 0 : (a>b?1:-1);
+                         };
+                         r = sortFunc(r1[sn], r2[sn]) * (so=='asc'?1:-1);
+                         if (r != 0){
+                             return r;
+                         }
+                     }
+                     return r;
+                 });
+             }
+             var start = (opts.pageNumber-1)*parseInt(opts.pageSize);
+             var end = start + parseInt(opts.pageSize);
+             data.rows = state.allRows.slice(start, end);
+             return data;
+         }
+
+         var loadDataMethod = $.fn.datagrid.methods.loadData;
+         var deleteRowMethod = $.fn.datagrid.methods.deleteRow;
+         $.extend($.fn.datagrid.methods, {
+             clientPaging: function(jq){
+                 return jq.each(function(){
+                     var dg = $(this);
+                     var state = dg.data('datagrid');
+                     var opts = state.options;
+                     opts.loadFilter = pagerFilter;
+                     var onBeforeLoad = opts.onBeforeLoad;
+                     opts.onBeforeLoad = function(param){
+                         state.allRows = null;
+                         return onBeforeLoad.call(this, param);
+                     };
+                     var pager = dg.datagrid('getPager');
+                     pager.pagination({
+                         onSelectPage:function(pageNum, pageSize){
+                             opts.pageNumber = pageNum;
+                             opts.pageSize = pageSize;
+                             pager.pagination('refresh',{
+                                 pageNumber:pageNum,
+                                 pageSize:pageSize
+                             });
+                             dg.datagrid('loadData',state.allRows);
+                         }
+                     });
+                     $(this).datagrid('loadData', state.data);
+                     if (opts.url){
+                         $(this).datagrid('reload');
+                     }
+                 });
+             },
+             loadData: function(jq, data){
+                 jq.each(function(){
+                     $(this).data('datagrid').allRows = null;
+                 });
+                 return loadDataMethod.call($.fn.datagrid.methods, jq, data);
+             },
+             deleteRow: function(jq, index){
+                 return jq.each(function(){
+                     var row = $(this).datagrid('getRows')[index];
+                     deleteRowMethod.call($.fn.datagrid.methods, $(this), index);
+                     var state = $(this).data('datagrid');
+                     if (state.options.loadFilter == pagerFilter){
+                         for(var i=0; i<state.allRows.length; i++){
+                             if (state.allRows[i] == row){
+                                 state.allRows.splice(i,1);
+                                 break;
+                             }
+                         }
+                         $(this).datagrid('loadData', state.allRows);
+                     }
+                 });
+             },
+             getAllRows: function(jq){
+                 return jq.data('datagrid').allRows;
+             }
+         })
+     })(jQuery);
+
+
+
+    var editIndex = undefined;
+    function endEditing(){
+        if (editIndex == undefined){return true}
+        if ($('#add_course_dg').datagrid('validateRow', editIndex)){
+            $('#add_course_dg').datagrid('endEdit', editIndex);
+            editIndex = undefined;
+            return true;
+        } else {
+            return false;
+        }
+    }
+    function onClickCell(index, field){
+        if (editIndex != index){
+            if (endEditing()){
+                $('#add_course_dg').datagrid('selectRow', index)
+                    .datagrid('beginEdit', index);
+                var ed = $('#add_course_dg').datagrid('getEditor', {index:index,field:field});
+                if (ed){
+                    ($(ed.target).data('textbox') ? $(ed.target).textbox('textbox') : $(ed.target)).focus();
+                }
+                editIndex = index;
+            } else {
+                setTimeout(function(){
+                    $('#add_course_dg').datagrid('selectRow', editIndex);
+                },0);
+            }
+        }
+    }
+    function onEndEdit(index, row){
+        var ed = $(this).datagrid('getEditor', {
+            index: index,
+            field: 'courseNameid'
+        });
+        var es= $(this).datagrid('getEditor', {
+            index: index,
+            field: 'starttimeid'
+        });
+        var er = $(this).datagrid('getEditor', {
+            index: index,
+            field: 'weekdataid'
+        });
+        row.weekdataName=$(er.target).combobox('getText');
+        row.starttimeName=$(es.target).combobox('getText');
+        row.courseName = $(ed.target).combobox('getText');
+    }
+    function append(){
+        if (endEditing()){
+            $('#add_course_dg').datagrid('appendRow',{status:'P'});
+            editIndex = $('#add_course_dg').datagrid('getRows').length-1;
+            $('#add_course_dg').datagrid('selectRow', editIndex)
+                .datagrid('beginEdit', editIndex);
+        }
+    }
+    function removeit(){
+
+        if (editIndex == undefined){
+            var rows = $('#add_course_dg').datagrid('getSelected');
+            var str=rows.courseOrder.split("-");
+            rows.takeId=rows.courseOrder;
+            rows.courseId=str[0];
+            rows.courseOder=str[1];
+
+            console.log(rows);
+            $.ajax({
+                type: "post",
+                url: "manager/delete",
+                data: JSON.stringify(rows),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data_1, status) {
+                    alert("删除成功");
+                }
+            });
+            $('#add_course_dg').datagrid('acceptChanges');
+            manager_Search_Course();
+            return}
+
+        $('#add_course_dg').datagrid('cancelEdit', editIndex)
+            .datagrid('deleteRow', editIndex);
+        editIndex = undefined;
+    }
+    function acceptit(){
+
+
+        if (endEditing()){
+            alert("1");
+            var rows = $('#add_course_dg').datagrid('getChanges');
+
+            console.log(rows);
+            $.ajax({
+                type: "post",
+                url: "manager/insertCourse",
+                data: JSON.stringify(rows[0]),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data_1, status) {
+                    alert("1");
+                }
+            });
+            alert("1");
+            $('#add_course_dg').datagrid('acceptChanges');
+        }
+    }
+    function reject(){
+        $('#add_course_dg').datagrid('rejectChanges');
+        editIndex = undefined;
+    }
+    // function getChanges(){
+    //     var rows = $('#add_course_dg').datagrid('getChanges');
+    //     alert(rows.length+' rows are changed!');
+    // }
+   function manager_Search_Course(){
+        var year_semster=$("#select_course_year").val().split("-");
+        var json= {year:year_semster[0],semester:year_semster[1],academyName:"1",
+            Nianji:$("#select_Nianji").val()};
+        console.log(JSON.stringify(json));
+        $.ajax({
+            type: "post",
+            url: "/manager/load/course",
+            data: JSON.stringify(json),
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data_1, status) {
+               console.log(data_1.data);
+               var course=[];
+               for(var i=0;i<data_1.data.length;i++){
+                   var ojson={};
+                   ojson.courseOrder=data_1.data[i].courseNum;
+                   ojson.capacity=data_1.data[i].courseMemberNum;
+                   ojson.courseName=data_1.data[i].courseName;
+                   ojson.credit=data_1.data[i].credit;
+                   ojson.time=data_1.data[i].courseTotalTimes;
+                   ojson.language=data_1.data[i].language;
+                   ojson.limitGrade=data_1.data[i].limitGrade;
+                   ojson.year=data_1.data[i].year;
+                   ojson.type=data_1.data[i].type;
+                   ojson.semster=data_1.data[i].semster;
+                   ojson.classroomId=data_1.data[i].classroomId;
+                   ojson.weekdataName=data_1.data[i].weekdata;
+                   ojson.starttimeName=data_1.data[i].startTime;
+                   ojson.information=data_1.data[i].information;
+                   course.push(ojson);
+               }
+                //data为后台返回值。我们这里后台返回的是map类型。map.put("latiao":3.5);所以到前台取值方式：
+                $('#add_course_dg').datagrid({data:course}).datagrid('clientPaging');
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

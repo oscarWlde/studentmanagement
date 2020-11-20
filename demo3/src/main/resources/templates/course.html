@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的课程</title>
+    <link rel="stylesheet" href="../css/course.css" type="text/css">
+    <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="../js/course.js"></script>
+    <script type="text/javascript" src="../js/garde_auto_table.js"></script>
+
+    <script>
+
+       $(function () {
+           displayCurrentTime();
+           next=1;
+           var select = $("#course_year");
+           var g_select = $("#g_course_year");
+           var table = $("#courseTable");
+           searchCourseTable();
+           search_grade_table();
+           });
+
+    </script>
+</head>
+<body>
+
+
+<div id="c" class="">
+    <div id="head">
+        <div id="home_head">
+            <p id="home_head_name" th:text="${id}"></p>
+        </div>
+        <div id="home_search" >
+            <ul>
+                <li><img src="../images/logo.png" height="50px" style="padding: 2px;"></li>
+                <li><a class="s" th:href="${home}">主页</a></li>
+                <li><a class="s" th:href="${course}">课程</a></li>
+                <li><a class="s" th:href="${select_course}">选课系统</a></li>
+                <li><a class="s" th:href="${Classroom}">教室资源</a></li>
+                <li><a class="s" th:href="${Project}">项目管理</a></li>
+                <li><a class="s" th:href="${Award}">奖学金申请</a></li>
+                <li><a class="s" th:href="${Information}">个人信息</a></li>
+            </ul>
+        </div>
+
+  </div>
+    <hr>
+     <div id="l"  class="">
+         <div id="l_1"  class="">
+             <div id="l_1_1" class="">
+                 &nbsp
+                 <b id="l_1_1_1">课程信息</b>
+
+             </div>
+             <div id="l_1_2" class="">
+                 &nbsp
+                 <b id="l_1_2_1">课程 </b>
+                 <u id="l_1_2_2">
+                     <li class="l_select" ><a href="#" class="list" onclick="search_course();">查询课表</a></li>
+                     <li class="l_select"><a href="#" class="list" onclick="load_grade();">查询分数</a></li>
+                     <li class="l_select"><a href="#" class="list">查看培养方案</a></li>
+                 </u>
+             </div>
+             <div id="l_1_3" class="">
+
+             </div>
+         </div>
+         <div id="l_2"  class="">
+             <div id="l_2_1" class="">
+                 &nbsp
+                 <b id="l_2_1_1">公告</b>
+             </div>
+             <div id="l_2_2" class="">
+                 <br>
+                 <u  id="l_2_2_3" >
+                     <li class="l_select">最新创新创业学分评定方法</li>
+                     <li class="l_select">最新讲座信息</li>
+                     <li class="l_select" >考研信息查询</li>
+                 </u>
+             </div>
+
+         </div>
+     </div>
+    <div id="r"  class="" >
+        <div id="r_1"  class="">
+            <div id="r_1_1" class="">
+                &nbsp
+                <b id="r_1_1_1">我的课表</b>
+
+            </div>
+            <div id="r_1_2" class="">
+                <select id="course_year" style="font-size: 0.5em">
+                    <option style="font-size: 1em" value="2019/2">2019/2</option>
+                    <option style="font-size:1em"  value="2019/1">2019/1</option>
+                    <option style="font-size: 1em"  value="2018/2">2018/2</option>
+                    <option  style="font-size: 1em" value="2018/1">2018/1</option>
+                </select>
+                <button type="button"  id="search_1" onclick="searchCourseTable();">查询</button>
+                &nbsp   &nbsp   &nbsp   &nbsp   &nbsp   &nbsp
+                <b class="t_row_0" >当前时间：</b> <b id="t" class="t_row_0"></b>
+
+                <table id="courseTable" width="100%" height="100%" border="1"  cellpadding="0" cellspacing="0" style="border-collapse:collapse">
+
+
+                        <caption><strong class="t_row_0">本学期课程表</strong></caption>
+                        <tr>
+                            <td class="time_1">Time</td><td class="time_1">Monday</td>
+                            <td class="time_1">Tuesday</td><td class="time_1">Wednesday</td>
+                            <td class="time_1">Thursday</td><td class="time_1">Friday</td>
+                            <td class="time_1">Saturday</td><td class="time_1">Sunday</td>
+                        </tr>
+                        <tr >
+                            <td  class="time"><br>第一节<br>8:00-9:50<br><br></td><td class="t_row_2"></td>
+                            <td class="t_row_2" ></td>
+                            <td class="t_row_2"></td>
+                            <td class="t_row_2"></td><td class="t_row_2"></td>
+                            <td class="t_row_2"></td><td class="t_row_2"></td>
+                        </tr>
+                        <tr>
+                        <td  class="time"><br>第二节<br>10:10-12:00<br><br><br></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                    </tr>
+                    <tr>
+                        <td class="time"><br>第三节<br>12:10-14:00<br><br></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                    </tr>
+                    <tr>
+                        <td  class="time"><br>第四节<br>14:10-16:00<br><br></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                    </tr>
+                    <tr>
+                        <td  class="time"><br>第五节<br>16:20-18:00<br><br></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                    </tr>
+                    <tr>
+                        <td  class="time"><br>第六节<br>19:00-20:50<br><br></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                    </tr>
+                    <tr>
+                        <td  class="time"><br>第七节<br>21:00-21:50<br><br></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div id="g"  class="" >
+        <div id="g_1"  class="">
+            <div id="g_1_1" class="">
+                &nbsp
+                <b id="g_1_1_1">我的成绩单</b>
+
+            </div>
+            <div id="g_1_2" class="">
+                <select id="g_course_year" style="font-size: 0.5em">
+                    <option style="font-size: 1em" value="2019/2">2019/2</option>
+                    <option style="font-size:1em"  value="2019/1">2019/1</option>
+                    <option style="font-size: 1em"  value="2018/2">2018/2</option>
+                    <option  style="font-size: 1em" value="2018/1">2018/1</option>
+                </select>
+                <button type="button"  id="search_2" onclick="search_grade_table();" class="l_select">查询</button>
+                &nbsp    &nbsp    &nbsp    &nbsp    &nbsp
+                <b class="time_1"  style="font-weight: bolder;    font-family: STKaiti;">总绩点：</b>
+                <b id="totalCredit" class="time_1" style="font-weight: bolder;    font-family: STKaiti;">111</b>
+                <table id="g_courseTable" width="100%"  border="1"  cellpadding="0" cellspacing="0" style="border-collapse:collapse ;text-align: center">
+
+
+                    <caption><strong class="t_row_0">成绩单</strong></caption>
+                    <thead>
+                    <tr>
+                        <td class="time_1">课程编号</td><td class="time_1">课程名字</td>
+                        <td class="time_1">授课老师</td><td class="time_1">学分</td>
+                        <td class="time_1">平时成绩</td>
+                        <td class="time_1">期末成绩</td><td class="time_1">总成绩</td>
+                    </tr>
+                    </thead>
+                     <tbody id="g_group_one">
+
+                     </tbody>
+                </table>
+                <div id="r_4">
+                    <button class="a_1" type="button" id="firstPage">首 页</button>
+                    <button class="a_1"  type="button" id="prePage">上一页</button>
+                    <button class="a_1" type="button" id="nextPage">下一页</button>
+                    <button class="a_1" type="button" id="lastPage">末 页</button>
+                    第<h id="currentPage" class="a_1" ></h>页/共<h id="total_page" class="a_1"></h>页
+                    &nbsp&nbsp第
+                    <input class="a_1" id="aim_page" value="1" style="width:20px"/>&nbsp页
+                    <button class="a_1" type="button" id="jump">跳转</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</body>
+</html>

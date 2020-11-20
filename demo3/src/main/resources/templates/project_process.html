@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Project Management</title>
+    <link rel="stylesheet" href="../css/project_process.css" type="text/css">
+    <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="../js/project_process.js"></script>
+
+    <script>
+        window.onload=function () {
+            search_project_process();
+        }
+    </script>
+
+</head>
+<body>
+
+<!--顶部开始-->
+<div id="c" class="">
+    <div id="head">
+        <div id="home_head">
+            <p id="home_head_name" th:text="${id}">1234</p>
+        </div>
+        <div>
+            <ul>
+                <li><img src="../images/logo.png" height="50px" style="padding: 2px;"></li>
+                <li><a class="s" th:href="${home}">主页</a></li>
+                <li><a class="s" th:href="${course}">课程</a></li>
+                <li><a class="s" th:href="${select_course}">选课系统</a></li>
+                <li><a class="s" th:href="${Classroom}">教室资源</a></li>
+                <li><a class="s" th:href="${Project}">项目管理</a></li>
+                <li><a class="s" th:href="${Award}">奖学金申请</a></li>
+                <li><a class="s" th:href="${Information}">个人信息</a></li>
+            </ul>
+        </div>
+
+    </div>
+    <hr>
+
+    <div id="l"  class="">
+        <div id="l_1"  class="">
+            <div id="l_1_1" class="">
+                &nbsp
+                <b id="l_1_1_1">欢迎你！</b>
+            </div>
+            <div id="l_1_2" class="">
+                &nbsp
+                <b id="l_1_2_1">项目管理</b> <hr>
+                <u id="l_1_2_2">
+                    <li > <a class="l_select"  th:href="${Project}" >项目选择</a></li> <hr>
+                    <li ><a class="l_select"  th:href="${Project_Approval}" >项目申报</a></li><hr>
+                    <li ><a class="l_select"  th:href="${project_process}" >项目进程</a></li><hr>
+                </u>
+            </div>
+        </div>
+    </div>
+    <div id="r"  class="">
+        <div id="r_1"  class="">
+            <div id="r_1_1" class="">
+                &nbsp
+                <b id="r_1_1_1">项目进程 </b>
+            </div>
+            <div id="r_1_2" class="">
+                <h class="t_row_3"> tips:项目成员不可修改项目信息</h>
+                <br>
+                <h class="t_row_1">项目年份：</h>
+                <select style="font-size: 0.5em" id="year">
+                    <option style="font-size: 1em" value="2019">2019</option>
+                </select>&emsp;
+                &nbsp     &nbsp     &nbsp     &nbsp
+                <h class="t_row_1">项目阶段：</h>
+                <select style="font-size: 0.5em" id="state">
+                    <option style="font-size: 1em" value="open">开题答辩</option>
+                    <option style="font-size:1em"  value="mid"> 中期答辩</option>
+                    <option style="font-size: 1em"  value="end">终期答辩</option>
+                </select>&emsp;
+                <input type="submit"  value="Search" id="search" onclick="search_project_process();"/>
+            </div>
+            <div id="r_1_3" class="">
+
+                <table onclick="selectTable();" id="senfe";width="100%"  border="1"  cellpadding="0" cellspacing="0" style="border-collapse:collapse">
+                    <thead>
+                    <tr >
+                        <td class="t_row_1">编号</td>
+                        <td class="t_row_1" >项目名称</td>
+                        <td class="t_row_1"   >项目预期成果</td>
+                        <td class="t_row_1" >指导老师</td>
+                        <td class="t_row_1"  >项目成员</td>
+                        <td class="t_row_1"  >项目等级</td>
+                        <td class="t_row_1"  >项目状态时间</td>
+                        <td class="t_row_1">操作</td>
+                    </tr>
+                    </thead>
+                    <tbody id="group_one">
+                    </tbody>
+                </table>
+                <div id="r_4">
+                    <button class="a_1" type="button" id="firstPage">首 页</button>
+                    <button class="a_1"  type="button" id="prePage">上一页</button>
+                    <button class="a_1" type="button" id="nextPage">下一页</button>
+                    <button class="a_1" type="button" id="lastPage">末 页</button>
+                    第<h id="currentPage" class="a_1" ></h>页/共<h id="total_page" class="a_1"></h>页
+                    &nbsp&nbsp第
+                    <input class="a_1" id="aim_page" value="1" style="width:20px"/>&nbsp页
+                    <button class="a_1" type="button" id="jump">跳转</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>
+

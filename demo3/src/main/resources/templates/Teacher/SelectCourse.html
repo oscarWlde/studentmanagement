@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>欢迎来到SC!</title>
+    <meta content="text/html; charset=utf-8" />
+    <link type="text/css" rel="stylesheet" href="../../css/Teacher/layout_home.css">
+    <script src="../../js/Teacher/course.js"></script>
+<!--    <script src="../../js/Teacher/jquery-3.4.1.js"></script>-->
+    <script type="text/javascript" src="../easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../easyui/locale/easyui-lang-zh_CN.js"></script>
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
+    <!--此处还可插入其他meta、样式单等信息-->
+</head>
+
+<body>
+    <div id="home_head">
+        <a href="Information.html" style="text-decoration: none;">
+            <p id="home_head_name" th:text="${t}"></p>
+        </a>
+    </div>
+    <div>
+        <ul class="lable_ul">
+            <li class="lable_li"><img src="../../images/logo.png" height="50px" style="padding: 2px;"></li>
+            <li class="lable_li"><a  class="lable" th:href="${t_home}">主页</a></li>
+            <li class="lable_li"><a class="lable" th:href="${t_course}">课程</a></li>
+            <li class="lable_li"><a class="lable" th:href="${t_Classroom}">教室资源</a></li>
+            <li class="lable_li"><a class="lable" th:href="${t_Project}">项目管理</a></li>
+        </ul>
+    </div>
+    <hr>
+
+    <div style="padding-top: 15px;float: left ;width: 22%;">
+        <div class="easyui-panel" title="课程列表" style="width:100%;max-width:400px;padding:30px 60px;">
+            <li style="font-size: large;"><a style="text-decoration: none" th:href="${t_course}">当前教授课表</a></li>
+            <br>
+
+            <li style="font-size: large;"><a style="text-decoration: none" th:href="${t_SelectCourse}">选择课程</a></li>
+            <br>
+            <li style="font-size: large;"><a style="text-decoration: none" th:href="${t_SelectList}" >课程列表</a></li>
+            <br>
+            <li style="font-size: large;"><a style="text-decoration: none" th:href="${t_CourseTable}" >已选课程表</a></li>
+        </div>
+    </div>
+    <div style="padding-top: 15px;float: right ;width: 75%;padding-right:3% ;">
+        <table id="dg" title="Client Side Pagination" style="width:100%;height:500px" class="easyui-datagrid" data-options="
+				rownumbers:true,
+				singleSelect:false,
+				autoRowHeight:false,
+				pagination:true,
+				collapsible:true,
+				toolbar: '#tb',
+				remoteSort:false,
+				multiSort:true,
+				pageSize:10">
+            <thead>
+            <tr>
+                <th data-options="field:'ck',checkbox:true,align:'center',halign:'center'" ></th>
+                <th data-options="field:'courseNum',align:'center',halign:'center',sortable:true" width="12%" >courseNum</th>
+                <th  data-options="field:'courseName',align:'center',halign:'center',sortable:true"  width="12%">courseName</th>
+                <th  data-options="field:'type',align:'center',halign:'center',sortable:true"  width="12%">type</th>
+                <th  data-options="field:'courseMemberNum',align:'center',halign:'center',sortable:true"  width="12%">courseMemberNum</th>
+                <th  data-options="field:'language',align:'center',halign:'center',sortable:true"  width="12%">语言</th>
+                <th  data-options="field:'state',align:'center',halign:'center',sortable:true"  width="12%">state</th>
+            </tr>
+            </thead>
+        </table>
+        <div id="tb" style="height:auto">
+            年份:
+            <select id="yearSemester" class="easyui-combobox" panelHeight="auto" style="width:100px">
+                <option value="2019-2">2019-02</option>
+                <option value="2019-1">2019-01</option>
+                <option value="2018-2">2018-02</option>
+            </select>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-search">Search</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="getSelections();">提交</a>
+        </div>
+    </div>
+</body>
+<script>
+
+    (function($){//调用函数
+        function pagerFilter(data){
+            if ($.isArray(data)){	// is array
+                data = {
+                    total: data.length,
+                    rows: data
+                }
+            }
+            var target = this;
+            var dg = $(target);
+            var state = dg.data('datagrid');
+            var opts = dg.datagrid('options');
+            if (!state.allRows){
+                state.allRows = (data.rows);
+            }
+            if (!opts.remoteSort && opts.sortName){
+                var names = opts.sortName.split(',');
+                var orders = opts.sortOrder.split(',');
+                state.allRows.sort(function(r1,r2){
+                    var r = 0;
+                    for(var i=0; i<names.length; i++){
+                        var sn = names[i];
+                        var so = orders[i];
+                        var col = $(target).datagrid('getColumnOption', sn);
+                        var sortFunc = col.sorter || function(a,b){
+                            return a==b ? 0 : (a>b?1:-1);
+                        };
+                        r = sortFunc(r1[sn], r2[sn]) * (so=='asc'?1:-1);
+                        if (r != 0){
+                            return r;
+                        }
+                    }
+                    return r;
+                });
+            }
+            var start = (opts.pageNumber-1)*parseInt(opts.pageSize);
+            var end = start + parseInt(opts.pageSize);
+            data.rows = state.allRows.slice(start, end);
+            return data;
+        }
+
+        var loadDataMethod = $.fn.datagrid.methods.loadData;
+        var deleteRowMethod = $.fn.datagrid.methods.deleteRow;
+        $.extend($.fn.datagrid.methods, {
+            clientPaging: function(jq){
+                return jq.each(function(){
+                    var dg = $(this);
+                    var state = dg.data('datagrid');
+                    var opts = state.options;
+                    opts.loadFilter = pagerFilter;
+                    var onBeforeLoad = opts.onBeforeLoad;
+                    opts.onBeforeLoad = function(param){
+                        state.allRows = null;
+                        return onBeforeLoad.call(this, param);
+                    }
+                    var pager = dg.datagrid('getPager');
+                    pager.pagination({
+                        onSelectPage:function(pageNum, pageSize){
+                            opts.pageNumber = pageNum;
+                            opts.pageSize = pageSize;
+                            pager.pagination('refresh',{
+                                pageNumber:pageNum,
+                                pageSize:pageSize
+                            });
+                            dg.datagrid('loadData',state.allRows);
+                        }
+                    });
+                    $(this).datagrid('loadData', state.data);
+                    if (opts.url){
+                        $(this).datagrid('reload');
+                    }
+                });
+            },
+            loadData: function(jq, data){
+                jq.each(function(){
+                    $(this).data('datagrid').allRows = null;
+                });
+                return loadDataMethod.call($.fn.datagrid.methods, jq, data);
+            },
+            deleteRow: function(jq, index){
+                return jq.each(function(){
+                    var row = $(this).datagrid('getRows')[index];
+                    deleteRowMethod.call($.fn.datagrid.methods, $(this), index);
+                    var state = $(this).data('datagrid');
+                    if (state.options.loadFilter == pagerFilter){
+                        for(var i=0; i<state.allRows.length; i++){
+                            if (state.allRows[i] == row){
+                                state.allRows.splice(i,1);
+                                break;
+                            }
+                        }
+                        $(this).datagrid('loadData', state.allRows);
+                    }
+                });
+            },
+            getAllRows: function(jq){
+                return jq.data('datagrid').allRows;
+            }
+        })
+    })(jQuery);
+
+
+    function getData(){
+        var str=$("#yearSemester").val().split("-");
+        var json= {id: $.getUrlParam("id"),year:str[0],semester:str[1],signal:"1"};
+        $.ajax({
+            type: "post",
+            url: "/teacher/select/course",
+            data: JSON.stringify(json),
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data_1, status) {
+                console.log(data_1.data);
+                var data=data_1.data;
+                var course=[];
+                for(var i=0;i<data.length;i++){
+                    var ojson={};
+                    ojson.courseNum=data[i].courseNum;
+                    ojson.courseName=data[i].courseName;
+                    ojson.type=data[i].type;
+                    ojson.courseMemberNum=data[i].courseMemberNum;
+                    ojson.language=data[i].language;
+                    console.log(data[i].teacherId);
+                    if(data[i].teacherId==null){
+                        ojson.state="申请";
+                    }else {
+                        ojson.state="已申请";
+                    }
+                    course.push(ojson);
+                }
+                //data为后台返回值。我们这里后台返回的是map类型。map.put("latiao":3.5);所以到前台取值方式：
+                $('#dg').datagrid({data:course}).datagrid('clientPaging');
+
+            }
+        });
+    }
+    $(function(){
+        getData();
+    });
+
+    function cellStyler(value,row,index){
+        if (value <1000 ){
+            return 'background-color:#ffee00;color:red;';
+        }
+    }
+    function numSorter(a,b){
+        a = parseFloat(a);
+        b = parseFloat(b);
+        return a==b?0:(a>b?1:-1);
+    }
+    function getSelections(){
+        //获取已选的科目
+        var str=$("#yearSemester").val().split("-")
+        var rows = $('#dg').datagrid('getSelected');
+        var str1=rows.courseNum.split("-");
+          rows.year=str[0];
+          rows.semester=str[1];
+          rows.teacherId=$.getUrlParam("id");
+          rows.signal="2";
+           rows.courseId=str1[0];
+           rows.courseOrder=str1[1];
+            //
+            // rows.stuId=$.getUrlParam("id");
+            // rows.year="2019";
+            // rows.semester="2";
+            // rows.state="1";
+        console.log(rows);
+        // //异步请求
+        $.ajax({
+            type: "post",
+            url: "/student/select/teacher/course/upp",
+            data: JSON.stringify(rows),
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data_1, status) {
+                alert(JSON.stringify(data_1));
+                getData();
+            }});
+
+    }
+
+    $.getUrlParam = function getUrlParam(name) {
+        // 构造一个含有目标参数的正则表达式对象
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        // 匹配目标参数
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)
+            return unescape(r[2]);
+        return null; // 返回参数值
+    };
+</script>
+</html>

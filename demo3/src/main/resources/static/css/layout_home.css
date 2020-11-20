@@ -1,0 +1,59 @@
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding-top: 1px;
+    padding-left: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+    height: 50px;
+    font-family: STKaiti;
+    font-weight: bolder;
+}
+
+a:link,
+a:visited {
+    display: block;
+    width: 120px;
+    height: 50px;
+    line-height: 50px;
+    font-weight: bold;
+    color: #000000;
+    background-color: #FFFFFF;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 20px;
+
+}
+
+a:hover,
+a:active {
+    color: #FFFFFF;
+    background-color: #cc0000;
+}
+
+#home_head {
+    background-color: #cc0000;
+}
+
+#home_head_name {
+    margin: 0;
+    padding-top: 4px;
+    padding-left: 4px;
+    padding-bottom: 4px;
+    font-size: 30px;
+    color: #FFFFFF;
+    font-family: STKaiti;
+    font-weight: bolder;
+}
+
+#home_schedule {
+    float: left;
+}
+
+.home_news {
+    float: left;
+}

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>选课</title>
+    <link rel="stylesheet" href="../css/selected_coursetable.css" type="text/css">
+    <script type="text/javascript" src="../js/selected_courseTable.js"></script>
+    <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+
+
+    <script>
+        window.onload = function(){
+            searchCourseTable();
+        }
+    </script>
+</head>
+<body>
+
+<!--顶部开始-->
+<div id="c" class="">
+    <div id="head">
+        <div id="home_head">
+            <p id="home_head_name" th:text="${id}">1234</p>
+        </div>
+        <div>
+            <ul>
+                <li><img src="../images/logo.png" height="50px" style="padding: 2px;"></li>
+                <li><a class="s" th:href="${home}">主页</a></li>
+                <li><a class="s" th:href="${course}">课程</a></li>
+                <li><a class="s" th:href="${select_course}">选课系统</a></li>
+                <li><a class="s" th:href="${Classroom}">教室资源</a></li>
+                <li><a class="s" th:href="${Project}">项目管理</a></li>
+                <li><a class="s" th:href="${Award}">奖学金申请</a></li>
+                <li><a class="s" th:href="${Information}">个人信息</a></li>
+            </ul>
+        </div>
+
+    </div>
+    <hr>
+
+    <div id="l"  class="">
+        <div id="l_1"  class="">
+            <div id="l_1_1" class="">
+                &nbsp
+                <b id="l_1_1_1">欢迎你！</b>
+            </div>
+            <div id="l_1_2" class="">
+                &nbsp
+                <b id="l_1_2_1">服务</b> <hr>
+                <u id="l_1_2_2">
+
+                    <li > <a class="l_select" th:href="${select_course}" >选课</a></li> <hr>
+                    <li ><a class="l_select"  th:href="${selectedList}" >已选课程</a></li> <hr>
+                    <li ><a class="l_select"  th:href="${selected_course}" >选课课表</a></li> <hr>
+                </u>
+            </div>
+        </div>
+    </div>
+
+    <div id="r"  class="" >
+        <div id="r_1"  class="">
+            <div id="r_1_1" class="">
+                &nbsp
+                <b id="r_1_1_1">我的已选课程</b>
+
+            </div>
+            <div id="r_1_2" class="" >
+                <select id="course_year" style="font-size: 0.5em">
+                    <option value="2019-2">2019/2</option>
+                    <option value="2019-2">2019/1</option>
+                    <option value="2019-2">2018/2</option>
+                </select>
+                <button type="button"  id="search_1" onclick="searchCourseTable();">查询</button>
+
+                <table id="courseTable" width="100%" height=450px border="1"  cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+
+
+                    <caption><strong class="t_row_0">选课课程表</strong></caption>
+                    <tr>
+                        <td class="time_1">Time</td><td class="time_1">Monday</td>
+                        <td class="time_1">Tuesday</td><td class="time_1">Wednesday</td>
+                        <td class="time_1">Thursday</td><td class="time_1">Friday</td>
+                        <td class="time_1">Saturday</td><td class="time_1">Sunday</td>
+                    </tr>
+                    <tr >
+                        <td  class="time"><br>第一节<br>8:00-9:50<br><br></td><td class="t_row_2"></td>
+                        <td class="t_row_2" ></td>
+                        <td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                    </tr>
+                    <tr>
+                        <td  class="time"><br>第二节<br>10:10-12:00<br><br><br></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                    </tr>
+                    <tr>
+                        <td class="time"><br>第三节<br>12:10-14:00<br><br></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                    </tr>
+                    <tr>
+                        <td  class="time"><br>第四节<br>14:10-16:00<br><br></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                    </tr>
+                    <tr>
+                        <td  class="time"><br>第五节<br>16:20-18:00<br><br></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                    </tr>
+                    <tr>
+                        <td  class="time"><br>第六节<br>19:00-20:50<br><br></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                    </tr>
+                    <tr>
+                        <td  class="time"><br>第七节<br>21:00-21:50<br><br></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                        <td class="t_row_2"></td><td class="t_row_2"></td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>
+
+<script>
+
+</script>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body class="easyui-layout">
+<div data-options="region:'center',title:'123'" style="max-width:500px;margin:0 auto;margin-top: 3%">
+    <div class="easyui-panel" title="申请调班" style="width:100%;max-width:400px;padding:30px 60px;">
+        <form id="jump" class="easyui-form" method="post" data-options="novalidate:true" >
+            <div style="margin-bottom:20px">
+                <input id="stuId" class="easyui-textbox" name="name" style="width:100%" data-options="label:'学号:',required:true">
+            </div>
+            <div style="margin-bottom:20px">
+                <input id="stuName" class="easyui-textbox" name="number" style="width:100%" data-options="label:'姓名:',required:true">
+            </div>
+            <div style="margin-bottom:20px">
+                <input id="oldclassid" class="easyui-textbox" name="oldClass" style="width:100%" data-options="label:'原班级:',required:true">
+            </div>
+            <div style="margin-bottom:20px">
+                <input id="newclassid" class="easyui-textbox" name="newClass" style="width:100%" data-options="label:'新班级:',required:true">
+            </div>
+        </form>
+        <div style="text-align:center;padding:5px 0">
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="j_submitForm()" style="width:80px">Submit</a>
+            <a href="javascript:void(0)" class="easyui-linkbutton" onclick="j_clearForm()" style="width:80px">Clear</a>
+        </div>
+    </div>
+</div>
+<script>
+    function j_submitForm(){
+        $('#jump').form('submit',{
+            onSubmit:function(){
+
+               if($(this).form('enableValidation').form('validate')==true){
+                   var json={stuId:$("#stuId").val(),classId:$("#newclassid").val(),oldclassId:$("#oldclassid").val()}
+                   $.ajax({
+                       type: "post",
+                       url: "/manager/changeClass",
+                       data:JSON.stringify(json),
+                       dataType: "json",
+                       contentType:"application/json",
+                       success:function (data,status) {
+
+                            alert("successfully");
+                       }
+                   });
+
+               }
+                return $(this).form('enableValidation').form('validate');
+            }
+
+        });
+    }
+
+    function j_clearForm(){
+        $('#jump').form('clear');
+    }
+
+    $.getUrlParam = function getUrlParam(name) {
+        // 构造一个含有目标参数的正则表达式对象
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        // 匹配目标参数
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)
+            return unescape(r[2]);
+        return null; // 返回参数值
+    };
+</script>
+</body>
+</html>

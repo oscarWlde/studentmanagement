@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table id="A" class="easyui-datagrid" title="奖学金列表" style="width:100%;height:100%"
+       data-options="rownumbers:true,	toolbar: '#tb_A',singleSelect:true">
+    <thead>
+    <tr>
+        <th data-options="field:'awardName'" width="12%">奖学金名称</th>
+        <th data-options="field:'time',align:'center'" width="12%">时间</th>
+        <th data-options="field:'stuId',align:'center'" width="12%">学号</th>
+        <th data-options="field:'stuName',align:'center'" width="12%">姓名</th>
+        <th data-options="field:'descript',align:'center'" width="7%">申请理由</th>
+        <th data-options="field:'state',align:'center'" width="12%">状态</th>
+    </tr>
+    </thead>
+</table>
+<div id="tb_A" style="height: auto" >
+    年份：
+    <select id="year" class="easyui-combobox" panelHeight="auto" style="width:15%" editable="false">
+        <option value="2019">2019</option>
+    </select>
+    项目分类:
+    <select id="select_a" class="easyui-combobox" panelHeight="auto" style="width:15%" editable="false">
+        <option value="0">待审核奖学金</option>
+        <option value="1">审核通过</option>
+        <option value="2">审核未通过</option>
+    </select>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-search',plain:true" onclick="A_project();">查询</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="sumit_A();">通过</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="cancel_A();">不通过</a>
+</div>
+
+<script>
+    function A_project() {
+        var json= {tag:1,
+            state:$("#select_a").val(),year:$("#year option:selected").val()
+        };
+        console.log(json);
+        console.log(JSON.stringify(json));
+        $.ajax({
+            type: "post",
+            url: "/select_award/student",
+            data: JSON.stringify(json),
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data_1, status) {
+                console.log(data_1.data);
+                for(var i=0;i<data_1.data.length;i++){
+                    if($("#select_a").val()=="0"){
+                        data_1.data[i].state="未审核";
+                    }else if($("#select_a").val()=="1"){
+                        data_1.data[i].state="通过";
+                    }else{
+                        data_1.data[i].state="未通过";
+                    }
+
+                }
+                $('#A').datagrid({data:data_1.data});
+            }
+        });
+
+    }
+
+    function  sumit_A(){
+
+        var rows = $('#A').datagrid('getSelected');
+        if(rows.state=="0"){
+            rows.state="1";
+            $.ajax({
+                type: "post",
+                url: "/student/updateAward",
+                data: JSON.stringify(rows),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data_1, status) {
+                    alert("审批成功");
+                    A_project();
+                }
+            });
+        }else{
+            alert("已评级,操作失败");
+        }
+
+    }
+    function  cancel_A(){
+
+        var rows = $('#A').datagrid('getSelected');
+        if(rows.state=="0"){
+            rows.state="2";
+            $.ajax({
+                type: "post",
+                url: "/student/updateAward",
+                data: JSON.stringify(rows),
+                dataType: "json",
+                contentType: "application/json",
+                success: function (data_1, status) {
+                    alert("取消成功");
+                    A_project();
+                }
+            });
+        }else{
+            alert("已评级,操作失败");
+        }
+
+    }
+
+    $(function () {
+        A_project() ;
+    });
+    //用于取路径上面传过来的值
+    $.getUrlParam = function getUrlParam(name) {
+// 构造一个含有目标参数的正则表达式对象
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+// 匹配目标参数
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)
+            return unescape(r[2]);;
+        return null; // 返回参数值
+    };
+    function change( s) {
+        var  str="";
+        if(s==0){
+            str="未审核";
+        }else if(s==1){
+            str="审核通过";
+        }else{
+            str="审核未通过";
+        }
+        return str;
+    }
+</script>
+</body>
+</html>

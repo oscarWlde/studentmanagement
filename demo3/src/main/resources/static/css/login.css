@@ -1,0 +1,129 @@
+*{    font-family: STXingkai;
+font-weight: bolder;
+font-size: 20px}
+/*顶部*/
+.top{
+    width: 100%;
+    height: 15%;
+    /*位置固定*/
+    position: absolute;
+    background: #ffffff;
+     z-index: 0;
+}
+.hr_1{
+    width: 100%;
+    top:15%;
+    border:none; /*无边框*/
+    border-top:1px solid #b31b1b;/*粗细，实线，颜色*/
+    position: absolute;
+    z-index: 1;
+}
+#logo {
+    float: left;
+    width: 80px;
+    height: 80px;
+    /*border: 1px solid #b31b1b;*/
+
+}
+#logo_name{
+     margin-left: 15px;
+     float: left;
+     width: 500px;
+     height: 80px;
+     line-height:90px;
+
+
+ }
+#logo_name_t{
+    margin: 0 auto;
+    font-size: 50px;
+    font-family: STXingkai;
+}
+#login_zy{
+    float: left;
+    position: absolute;
+    bottom: 10px;
+    right: 50px;
+}
+
+#login_zy_t{
+    color: #bdbdbd;
+    margin: 0 auto;
+    font-size: 30px;
+    font-family: STXingkai;
+}
+
+
+/*中部*/
+
+.center{
+    margin-top: 10%;
+    width: 100%;
+    height: 70%;
+    /*位置固定*/
+    border-radius:5px;
+    position: absolute;
+    background: #ffffff;
+    z-index: 0;
+    /*border: 1px solid #b31b1b;*/
+}
+
+#center_img {
+    margin-top: 50px;
+    margin-left: 8%;
+    float: left;
+    width: 50%;
+    height: 350px;
+    /*border: 1px solid #b31b1b;*/
+}
+#messgge{
+    margin-top: 20px;
+    margin-left: 10%;
+    float: left;
+    width: 15%;
+    height:400px;
+
+}
+#title{
+    width: 350px;
+    height: 40px;
+    background-color: #b31b1b;
+    text-align:center;
+    line-height:40px;
+    border: 0.5px solid #b31b1b;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+}
+
+#title_t{
+    color: #ffffff;
+    font-size: 30px;
+    font-family: STXingkai;
+}
+
+#form_1{
+    width: 350px;
+    height: 350px;
+    border: 0.5px solid #1b0d3d;
+    text-align:center;
+    line-height:20px;
+    background-color: #f1f1f1;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+#sumit_1{
+    width: 100px;
+    height: 40px;
+    background-color: #b31b1b;
+    border-radius:8px;
+    border: 0.5px solid #b31b1b;
+    color: white;
+    font-size: 30px;
+    font-family: STXingkai;
+}
+#foget_psw{
+    color: #1b0d3d;
+    font-family: STXingkai;
+    font-size: 20px;
+}

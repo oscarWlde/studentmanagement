@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Project Management</title>
+    <link rel="stylesheet" href="../css/project.css" type="text/css">
+    <script type="text/javascript" src="../js/project.js"></script>
+    <link rel="stylesheet" type="text/css" href="/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/bootstrap/easyui.css">
+    <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css">
+    <script type="text/javascript" src="/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
+
+    <script>
+        window.onload=function () {
+            Member=1;
+            Projectdata=[];
+            search_Project();
+        }
+    </script>
+<style>
+
+</style>
+</head>
+<body>
+
+<!--顶部开始-->
+<div id="c" class="">
+
+    <div id="head">
+        <div id="home_head">
+            <p id="home_head_name" th:text="${id}"></p>
+        </div>
+        <div>
+            <ul>
+                <li><img src="../images/logo.png" height="50px" style="padding: 2px;"></li>
+                <li><a class="s" th:href="${home}">主页</a></li>
+                <li><a class="s" th:href="${course}">课程</a></li>
+                <li><a class="s" th:href="${select_course}">选课系统</a></li>
+                <li><a class="s" th:href="${Classroom}">教室资源</a></li>
+                <li><a class="s" th:href="${Project}">项目管理</a></li>
+                <li><a class="s" th:href="${Award}">奖学金申请</a></li>
+                <li><a class="s" th:href="${Information}">个人信息</a></li>
+            </ul>
+        </div>
+
+    </div>
+    <hr>
+
+    <div id="l"  class="">
+        <div id="l_1"  class="">
+            <div id="l_1_1" class="">
+                &nbsp
+                <b id="l_1_1_1">欢迎！</b>
+            </div>
+            <div id="l_1_2" class="">
+                &nbsp
+                <b id="l_1_2_1">项目管理</b> <hr>
+                <u id="l_1_2_2">
+                    <li > <a class="l_select"  th:href="${Project}" >项目选择</a></li> <hr>
+                    <li ><a class="l_select"  th:href="${Project_Approval}" >项目申报</a></li><hr>
+                    <li ><a class="l_select"  th:href="${project_process}" >项目进程</a></li><hr>
+                </u>
+            </div>
+        </div>
+    </div>
+    <div id="r"  class="">
+        <div id="r_1"  class="">
+            <div id="r_1_1" class="">
+                &nbsp
+                <b id="r_1_1_1">项目选择</b>
+
+            </div>
+            <div id="r_1_2" class="">
+
+                <h class="t_row_1">学院:</h>
+                <select style="font-size: 0.5em" id="Academy">
+                    <option style="font-size: 1em" value="0"> 全部</option>
+                    <option style="font-size: 1em" value="software"> 软件学院</option>
+                    <option style="font-size:1em"  value="computer"> 计算机</option>
+                </select>&emsp;
+                <h class="t_row_1">项目年份</h>
+                <select style="font-size: 0.5em" id="year">
+                    <option style="font-size: 1em" value="2019"> 2019</option>
+                </select>&emsp;
+                <input type="button"  value="Search" id="search"  onclick="search_Project();"/>
+            </div>
+            <div id="r_1_3" class="">
+
+                <table  id="senfe";width="100%"  border="1"  cellpadding="0" cellspacing="0" style="border-collapse:collapse">
+                    <thead>
+                    <tr >
+                        <td class="t_row_1">编号</td>
+                        <td class="t_row_1" >项目名称</td>
+                        <td class="t_row_1"   >项目预期成果</td>
+                        <td class="t_row_1" >指导老师</td>
+                        <td class="t_row_1"  >所属学院</td>
+                        <td class="t_row_1">最大人数</td>
+                        <td class="t_row_1" >操作</td>
+                    </tr>
+                    </thead>
+                    <tbody id="group_one">
+                    </tbody>
+                </table>
+                <div id="r_4">
+                    <button class="a_1" type="button" id="firstPage">首 页</button>
+                    <button class="a_1"  type="button" id="prePage">上一页</button>
+                    <button class="a_1" type="button" id="nextPage">下一页</button>
+                    <button class="a_1" type="button" id="lastPage">末 页</button>
+                    第<h id="currentPage" class="a_1" ></h>页/共<h id="total_page" class="a_1"></h>页
+                    &nbsp&nbsp第
+                    <input class="a_1" id="aim_page" value="1" style="width:20px"/>&nbsp页
+                    <button class="a_1" type="button" id="jump">跳转</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<div id="tm">-->
+<div id="apply_classroom" class="easyui-window" title="Window Layout" data-options="iconCls:'icon-save' ,closed:true ,resizable:true" style="width:500px;height:600px;padding:5px;">
+    <div class="easyui-layout" data-options="fit:true">
+        <div data-options="region:'center'" style="width:100%;padding:30px 60px;height: 600px">
+            <form id="apply_cr" class="easyui-form" method="post" data-options="novalidate:true" style="font-size: medium;height: 600px" >
+                <div style="margin-bottom:20px">
+                    <input id="projectId" class="easyui-textbox"  label="项目编号:" style="width:80%" panelHeight="100" required="true"  reversed="true" labelWidth="150"/>
+
+                </div>
+                <div style="margin-bottom:20px">
+                    <input id="leader" class="easyui-textbox"  label="组长学号:" style="width:80%" panelHeight="100" required="true"  reversed="true" labelWidth="150"/>
+
+                </div>
+                <div style="margin-bottom:20px">
+                    <input id="Member1"class="easyui-textbox" label="组员学号:" style="width:80%" panelHeight="100" required="true"   reversed="true" labelWidth="150"/>
+
+                </div>
+                <div style="margin-bottom:20px;" >
+                    <input id="Member2"  class="easyui-textbox" label="组员学号:" style="width:80%" panelHeight="100" required="true"   reversed="true" labelWidth="150"/>
+
+                </div>
+                <div style="margin-bottom:20px;" >
+                    <input id="Member3" class="easyui-textbox"  label="组员学号:" style="width:80%" panelHeight="100" required="true"   reversed="true" labelWidth="150"/>
+
+                </div>
+                <div style="margin-bottom:20px;">
+                    <input id="Member4" class="easyui-textbox"  label="组员学号:" style="width:80%" panelHeight="100" required="true"   reversed="true" labelWidth="150"/>
+                </div>
+            </form>
+
+        </div>
+        <div data-options="region:'south',border:false" style="text-align:center;padding:5px 0;">
+            <div style="margin-top: 50px">
+                <a class="easyui-linkbutton" data-options="iconCls:'icon-ok'" href="javascript:void(0)" onclick="open_w();" style="width:80px">Ok</a>
+                <a class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0)" onclick="close_w()" style="width:80px">Cancel</a>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+<script>
+
+    function open_w(){
+
+       var id=$("#leader").val()+"/";
+       if($("#Member1").val()!=""){
+           id=id+$("#Member1").val()+"/";
+       }
+        if($("#Member2").val()!=""){
+            id=id+$("#Member2").val()+"/";
+        }
+        if($("#Member3").val()!=""){
+            id=id+$("#Member3").val()+"/";
+        }
+        if($("#Member4").val()!=""){
+            id=id+$("#Member4").val()+"/";
+        }
+        var date=new Date();
+        var month=date.getMonth()
+        var month=parseInt(month)+1;
+        var json = {projectId:projectId,stuId:id,applyTime:date.getFullYear()+"-"+month+"-"+date.getDate()
+        };
+        console.log(json);
+        $.ajax({
+            type: "post",
+            url: "/student/insertP",
+            data:JSON.stringify(json),
+            dataType: "json",
+            contentType:"application/json",
+            success:function (data,status) {
+                alert("申请成功");
+            }
+        });
+        $("#apply_classroom").window('close');
+    }
+    function close_w(){
+
+        $("#apply_classroom").window('close');
+    }
+
+
+
+
+    //用于取路径上面传过来的值
+    $.getUrlParam = function getUrlParam(name) {
+// 构造一个含有目标参数的正则表达式对象
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+// 匹配目标参数
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)
+            return unescape(r[2]);;
+        return null; // 返回参数值
+    };
+</script>
+</html>
+
