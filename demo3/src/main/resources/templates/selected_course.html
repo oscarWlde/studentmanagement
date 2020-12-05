@@ -2,11 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>选课</title>
+    <title>选课课表</title>
     <link rel="stylesheet" href="../css/selected_coursetable.css" type="text/css">
     <script type="text/javascript" src="../js/selected_courseTable.js"></script>
     <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
-
 
     <script>
         window.onload = function(){
@@ -24,7 +23,7 @@
         </div>
         <div>
             <ul>
-                <li><img src="../images/logo.png" height="50px" style="padding: 2px;"></li>
+                <li><img src="../images/logo1.png" height="40px" style="padding: 2px;margin-left:10px;"></li>
                 <li><a class="s" th:href="${home}">主页</a></li>
                 <li><a class="s" th:href="${course}">课程</a></li>
                 <li><a class="s" th:href="${select_course}">选课系统</a></li>
@@ -66,11 +65,11 @@
             </div>
             <div id="r_1_2" class="" >
                 <select id="course_year" style="font-size: 0.5em">
-                    <option value="2019-2">2019/2</option>
-                    <option value="2019-2">2019/1</option>
-                    <option value="2019-2">2018/2</option>
+                    <option style="font-size: 1em" value="2020-2">2020/2</option>
+                    <option style="font-size: 1em" value="2020-1">2020/1</option>
+                    <option style="font-size: 1em" value="2019-2">2019/2</option>
                 </select>
-                <button type="button"  id="search_1" onclick="searchCourseTable();">查询</button>
+                <button type="button"  id="search_1" onclick="searchCourseTable();">查找</button>
 
                 <table id="courseTable" width="100%" height=450px border="1"  cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
 

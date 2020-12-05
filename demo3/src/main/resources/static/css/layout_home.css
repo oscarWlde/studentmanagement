@@ -9,7 +9,7 @@ ul {
 li {
     float: left;
     height: 50px;
-    font-family: STKaiti;
+    font-family: 'PMingLiU', sans-serif;
     font-weight: bolder;
 }
 
@@ -26,17 +26,17 @@ a:visited {
     text-decoration: none;
     text-transform: uppercase;
     font-size: 20px;
-
 }
 
 a:hover,
 a:active {
     color: #FFFFFF;
-    background-color: #cc0000;
+    background-color: #7ac5cd;
 }
 
 #home_head {
-    background-color: #cc0000;
+    height: 40%;
+    background-color: #7ac5cd;
 }
 
 #home_head_name {
@@ -44,9 +44,9 @@ a:active {
     padding-top: 4px;
     padding-left: 4px;
     padding-bottom: 4px;
-    font-size: 30px;
+    font-size: 17px;
     color: #FFFFFF;
-    font-family: STKaiti;
+    font-family: 'PMingLiU', sans-serif;
     font-weight: bolder;
 }
 

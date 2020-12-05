@@ -1,13 +1,12 @@
-* {
-    font-size: 26px;
-    margin: 0 auto;
-    padding: 0px;
+body {
+    margin: 0px auto;
+    padding: 0px
 }
 
 #c {
     width: 100%;
     height: 700px;
-    margin: 5px;
+    margin: 5px
 }
 
 #head {
@@ -19,7 +18,7 @@
 #home_head {
     width: 100%;
     height: 35%;
-    background-color: #7ac5cd;
+    background-color: #7AC5CD;
 }
 
 #home_head_name {
@@ -79,7 +78,7 @@ ul li {
     height: 86%;
     margin: 5px;
     float: left;
-    font-family:'PMingLiU', sans-serif;
+    font-family: 'PMingLiU', sans-serif;
     font-weight: bolder;
     font-size: 26px;
     padding: 0;
@@ -136,8 +135,4 @@ ul li {
     height: 100%;
     margin: 5px;
     float: left;
-}
-
-#tb {
-    font-size: 15px;
 }

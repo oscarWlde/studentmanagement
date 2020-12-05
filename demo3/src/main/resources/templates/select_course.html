@@ -2,45 +2,15 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>选课</title>
+    <title>选课系统</title>
 
+    <link rel="stylesheet" href="../css/select_course.css" type="text/css">
     <link rel="stylesheet" type="text/css" href="../easyui/themes/bootstrap/easyui.css">
     <link rel="stylesheet" type="text/css" href="../easyui/themes/icon.css">
     <link rel="stylesheet" type="text/css" href="../easyui/demo/demo.css">
     <script type="text/javascript" src="../easyui/jquery.min.js"></script>
     <script type="text/javascript" src="../easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="../easyui/locale/easyui-lang-zh_CN.js"></script>
-
-    <style>
-        body{
-            margin:0px auto;padding: 0px
-        }
-        #c{width: 100%;height: 700px;margin: 5px }
-        #head{width:100%;height:14%;margin: 5px;}
-        #home_head{width: 100%;height: 50%;background-color: #b31b1b;}
-        #home_head_name{ margin: 0;padding-top: 4px;padding-left: 4px;padding-bottom: 4px;font-size: 30px;color: #FFFFFF;font-weight: bolder;    font-family: STKaiti;}
-        #home_search{width: 100%;height: 50%;}
-        ul {list-style-type: none;margin: 0;padding-top: 1px;padding-left: 0;overflow: hidden;}
-        ul li {float: left;height: 50px;font-family: STKaiti;font-weight: bolder;}
-        .s:link,
-        .s:visited {display: block;width: 120px;height: 50px;line-height: 50px;font-weight: bold;color: #000000;background-color: #FFFFFF;text-align: center;text-decoration: none;text-transform: uppercase;font-size: 20px;}
-        .s:hover,
-        .s:active {color: #FFFFFF;background-color: #cc0000;}
-        #l{width: 15%;height:86%;margin: 5px;float:left; font-family: STKaiti;
-        font-weight: bolder;font-size: 26px;padding: 0;}
-        #l_1{width: 100%;height: 45%;margin: 5px;border: 1px solid #949699}
-        #l_1_1{width:100%;height: 10%;border: 1px solid #949699;background-color: #6a6e77;line-height: 50%;letter-spacing: 1px;}
-        #l_1_2{width: 97%;height:40%;margin-top: 10px;font-size: 1em}
-        #l_1_1_1{    font-weight: bolder;    font-family: STKaiti;font-size:17px;color: white;text-align: left;}
-        #l_1_2_2{color: #2d9bfb;text-decoration: none;text-indent:1em;}
-        .l_select{font-size: 0.6em;text-decoration: none}
-        #l_1_2_1{font-size: 0.7em}
-        #r{width:80%;height:100%;margin: 5px;float:left;}
-    </style>
-
-    <script>
-
-    </script>
 </head>
 <body>
 
@@ -53,7 +23,7 @@
         </div>
         <div>
             <ul>
-                <li><img src="../images/logo.png" height="50px" style="padding: 2px;"></li>
+                <li><img src="../images/logo1.png" height="40px" style="padding: 2px;margin-left:10px;"></li>
                 <li><a class="s" th:href="${home}">主页</a></li>
                 <li><a class="s" th:href="${course}">课程</a></li>
                 <li><a class="s" th:href="${select_course}">选课系统</a></li>
@@ -128,7 +98,7 @@
                 <option value="1">主修</option>
                 <option value="2">选修</option>
             </select>
-            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="getData()">查询</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="getData()">查找</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="getSelections();">提交</a>
         </div>
     </div>

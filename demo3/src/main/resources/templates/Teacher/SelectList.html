@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>欢迎来到SC!</title>
+    <title>课程列表</title>
     <meta content="text/html; charset=utf-8" />
     <link type="text/css" rel="stylesheet" href="../../css/Teacher/layout_home.css">
     <script src="../../js/Teacher/course.js"></script>
@@ -23,7 +23,7 @@
 </div>
 <div>
     <ul class="lable_ul">
-        <li class="lable_li"><img src="../../images/logo.png" height="50px" style="padding: 2px;"></li>
+        <li class="lable_li"><img src="../../images/logo1.png" height="40px" style="padding: 2px;margin-left:10px;"></li>
         <li class="lable_li"><a  class="lable" th:href="${t_home}">主页</a></li>
         <li class="lable_li"><a class="lable" th:href="${t_course}">课程</a></li>
         <li class="lable_li"><a class="lable" th:href="${t_Classroom}">教室资源</a></li>
@@ -72,9 +72,9 @@
     <div id="tb" style="height:auto">
         年份:
         <select id="yearSemester" class="easyui-combobox" panelHeight="auto" style="width:100px">
+            <option value="2020-2">2020-02</option>
+            <option value="2020-1">2020-01</option>
             <option value="2019-2">2019-02</option>
-            <option value="2019-1">2019-01</option>
-            <option value="2018-2">2018-02</option>
         </select>
         <a href="#" class="easyui-linkbutton" iconCls="icon-search">Search</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true" onclick="getSelections();">Delect</a>

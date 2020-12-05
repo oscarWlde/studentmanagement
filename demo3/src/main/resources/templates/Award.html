@@ -2,16 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>我的课程</title>
+    <title>奖学金申请</title>
     <link rel="stylesheet" href="../css/Award.css" type="text/css">
-    <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
-    <script type="text/javascript" src="../js/Award.js"></script>
     <link rel="stylesheet" type="text/css" href="/easyui/themes/bootstrap/easyui.css">
     <link rel="stylesheet" type="text/css" href="/easyui/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="/font-awesome-4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
+    <script type="text/javascript" src="../js/Award.js"></script>
     <script type="text/javascript" src="/easyui/jquery.min.js"></script>
     <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
-    <link rel="stylesheet" type="text/css" href="/font-awesome-4.7.0/css/font-awesome.min.css">
     <script>
        window.onload=function () {
 
@@ -43,7 +43,7 @@
         </div>
         <div>
             <ul>
-                <li><img src="../images/logo.png" height="50px" style="padding: 2px;"></li>
+                <li><img src="../images/logo1.png" height="40px" style="padding: 2px;margin-left:10px;"></li>
                 <li><a class="s" th:href="${home}">主页</a></li>
                 <li><a class="s" th:href="${course}">课程</a></li>
                 <li><a class="s" th:href="${select_course}">选课系统</a></li>
@@ -84,7 +84,7 @@
             </div>
             <div id="r_1_2" class="">
                 <table id="award" width="100%" border="1"  cellpadding="0" cellspacing="0" style="border-collapse:collapse">
-                    <caption><strong class="t_row_0">2019奖学金列表</strong></caption>
+                    <caption><strong class="t_row_0">2019-2020学年奖学金列表</strong></caption>
                     <thead>
                     <tr>
                         <td class="time_1">编号</td><td class="time_1">奖学金名称</td>
@@ -110,7 +110,7 @@
             </div>
             <div id="g_1_2" class="">
                 <table id="g_courseTable" width="100%"  border="1"  cellpadding="0" cellspacing="0" style="border-collapse:collapse">
-                    <caption><strong class="t_row_0">2019软件工程已申请奖学金</strong></caption>
+                    <caption><strong class="t_row_0">2019-2020学年软件学院已申请奖学金</strong></caption>
                     <thead>
                     <tr>
                         <td class="time_1" id="aw_number">编号</td><td class="time_1">奖学金名称</td>

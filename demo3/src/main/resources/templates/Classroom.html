@@ -11,9 +11,6 @@
     <script type="text/javascript" src="/easyui/jquery.min.js"></script>
     <script type="text/javascript" src="/easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="/easyui/locale/easyui-lang-zh_CN.js"></script>
-    <style>
-
-    </style>
 
     <script>
       $(function () {
@@ -58,15 +55,13 @@
 
 <!--顶部开始-->
 <div id="c" class="">
-
-
     <div id="head">
         <div id="home_head">
             <p id="home_head_name" th:text="${id}"></p>
         </div>
         <div>
             <ul>
-                <li><img src="../images/logo.png" height="50px" style="padding: 2px;"></li>
+                <li><img src="../images/logo1.png" height="40px" style="padding: 2px;margin-left:10px;"></li>
                 <li><a class="s" th:href="${home}">主页</a></li>
                 <li><a class="s" th:href="${course}">课程</a></li>
                 <li><a class="s" th:href="${select_course}">选课系统</a></li>
@@ -109,7 +104,7 @@
             <div id="r_1_2" class="">
                 <b class="time" >年份:</b>
                 <select style="font-size: 0.5em" id="year">
-                    <option style="font-size: 1em" value="0">2019/2</option>
+                    <option style="font-size: 1em" value="0">2020/2</option>
                 </select>&emsp;&emsp;
                 <b class="time">周次:</b>
                 <select style="font-size: 0.5em" id="week">
@@ -145,7 +140,7 @@
                     <option  style="font-size: 1em" value="5">Center</option>
                 </select>&emsp;&emsp;
                  &nbsp
-                <input type="button"  value="Search" id="search" onclick="load_classroom();"/>
+                <input type="button"  value="查找" id="search" onclick="load_classroom();"/>
             </div>
             <div id="r_1_3" class="">
 

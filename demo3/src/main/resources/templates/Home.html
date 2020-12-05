@@ -2,21 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>欢迎来到SC!</title>
+    <title>欢迎来到学生信息管理系统!</title>
+    <link rel="stylesheet" type="text/css" href="../css/layout_home.css">
     <script type="text/javascript" src="../js/jquery-3.4.1.js"></script>
     <script type="text/javascript" src="../js/config.js"></script>
     <script src="../js/home.js"></script>
-    <style>
-        ul {list-style-type: none;margin: 0;padding-top: 1px;padding-left: 0;overflow: hidden;}
-        li {float: left;height: 50px;font-family: STKaiti;font-weight: bolder;}
-        a:link,
-        a:visited {display: block;width: 120px;height: 50px;line-height: 50px;font-weight: bold;color: #000000;background-color: #FFFFFF;text-align: center;text-decoration: none;text-transform: uppercase;font-size: 20px;}
-        a:hover, a:active {color: #FFFFFF;background-color: #cc0000;}
-        #home_head {background-color: #cc0000;}
-        #home_head_name {margin: 0;padding-top: 4px;padding-left: 4px;padding-bottom: 4px;font-size: 30px;color: #FFFFFF;font-family: STKaiti;font-weight: bolder;}
-        #home_schedule {float: left;}
-        .home_news {float: left;}
-    </style>
     <!--此处还可插入其他meta、样式单等信息-->
     <script>
         window.onload = function() {
@@ -35,7 +25,7 @@
     </div>
     <div>
         <ul>
-            <li><img src="../images/logo.png" height="50px" style="padding: 2px;"></li>
+            <li><img src="../images/logo1.png" height="40px" style="padding: 2px;margin-left:10px;"></li>
             <li><a class="s" th:href="${home}">主页</a></li>
             <li><a class="s" th:href="${course}">课程</a></li>
             <li><a class="s" th:href="${select_course}">选课系统</a></li>
@@ -46,7 +36,7 @@
         </ul>
     </div>
     <div style="width: 100%;">
-        <img src="../images/home_display.jpg" style="width: 100%;" />
+        <img src="../images/home_display1.jpg" style="width: 100%;" />
     </div>
     <div style="padding-top: 15px; width: 100%;">
         <div id="home_schedule" style="width: 34%;">
@@ -106,14 +96,14 @@
             <fieldset style="width: 100%;">
                 <legend style="font-size: 20px;padding-bottom: 2px;"><b>Today's News</b></legend>
                 <div style="float: left; padding:5px ;width: 100%;">
-                    <img src="../images/zy_center.png" height="150px" style="float: left;">
+                    <img src="../images/5.png" height="120px" style="float: left;">
                     <div style="padding-left: 8px; float: left; line-height: 15px;">
                         <p style="font-size: 20px;">College News</p>
                         <p>ssssss College News</p>
                     </div>
                 </div>
                 <div style="float: left; padding:5px ;width: 100%;">
-                    <img src="../images/zy_center.png" height="150px" style="float: left;">
+                    <img src="../images/6.png" height="120px" style="float: left;">
                     <div style="padding-left: 8px; float: left; line-height: 15px;">
                         <p style="font-size: 20px;">College News</p>
                         <p>ssssss College News</p>

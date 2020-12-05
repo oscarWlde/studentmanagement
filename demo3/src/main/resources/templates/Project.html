@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Project Management</title>
+    <title>项目管理</title>
     <link rel="stylesheet" href="../css/project.css" type="text/css">
     <script type="text/javascript" src="../js/project.js"></script>
     <link rel="stylesheet" type="text/css" href="/font-awesome-4.7.0/css/font-awesome.min.css">
@@ -19,9 +19,6 @@
             search_Project();
         }
     </script>
-<style>
-
-</style>
 </head>
 <body>
 
@@ -34,7 +31,7 @@
         </div>
         <div>
             <ul>
-                <li><img src="../images/logo.png" height="50px" style="padding: 2px;"></li>
+                <li><img src="../images/logo1.png" height="40px" style="padding: 2px;margin-left:10px;"></li>
                 <li><a class="s" th:href="${home}">主页</a></li>
                 <li><a class="s" th:href="${course}">课程</a></li>
                 <li><a class="s" th:href="${select_course}">选课系统</a></li>
@@ -82,9 +79,9 @@
                 </select>&emsp;
                 <h class="t_row_1">项目年份</h>
                 <select style="font-size: 0.5em" id="year">
-                    <option style="font-size: 1em" value="2019"> 2019</option>
+                    <option style="font-size: 1em" value="2020"> 2020</option>
                 </select>&emsp;
-                <input type="button"  value="Search" id="search"  onclick="search_Project();"/>
+                <input type="button"  value="查找" id="search"  onclick="search_Project();"/>
             </div>
             <div id="r_1_3" class="">
 
