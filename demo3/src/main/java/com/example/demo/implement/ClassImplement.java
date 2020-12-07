@@ -53,7 +53,7 @@ public class ClassImplement implements Load_class_service {
         }
     }
 
-    @Override
+    @Override//搜索课程
     public JSONObject search_course(String year, String semster) {
         List<return_student_course> get_courses = mapper.getregularClass(year, semster);
         JSONObject res = new JSONObject();

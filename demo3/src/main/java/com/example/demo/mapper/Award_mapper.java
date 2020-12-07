@@ -3,13 +3,16 @@ package com.example.demo.mapper;
 import com.example.demo.bean.Awardpunishment;
 import com.example.demo.util.award.return_award;
 import com.example.demo.util.award.select_award;
+import com.example.demo.bean.Gataward;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+@Mapper
 public interface Award_mapper {
     @Select("select distinct awardId,gatAward.awardName,gatAward.tag,state,time,content,descript from gatAward \n" +
             "left join awardpunishment on awardpunishment.awardName = gatAward.awardName\n" +
@@ -38,5 +41,8 @@ public interface Award_mapper {
             "and awardName = #{awardName}\n" +
             "and time = #{time}")
     int update_award(@Param("stuId")String stuId,@Param("state")String state,@Param("awardName")String awardName,@Param("time")String time);
+
+    @Select("select * from gataward where stuId = #{stuId} and awardName = #{awardName}")
+    List<Gataward> find(@Param("stuId")String stuId,@Param("awardName")String awardName);
 
 }

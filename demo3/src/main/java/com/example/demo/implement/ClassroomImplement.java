@@ -36,15 +36,17 @@ public class ClassroomImplement implements Classroom_service {
         result.put("data",temp);
         return result;
     }
+
     @Override
     public JSONObject load_classroom1(String id,String type,String semester,String week,String buildingName)
     {
         Calendar date = Calendar.getInstance();
-        String year = String.valueOf(date.get(Calendar.YEAR));
+        //String year = String.valueOf(date.get(Calendar.YEAR));//默认日期为当前系统日期
+        String year = "2019";
         JSONObject result = new JSONObject();
         List<room_state> temp = new ArrayList<>();
-        List<Classroom> classrooms = classroom_map.search_classroom(buildingName);
-        List<Take> takes = take_map.search_classroom2(buildingName,week,year,semester);
+        List<Classroom> classrooms = classroom_map.search_classroom(buildingName);//获得目标教学楼所有教室
+        List<Take> takes = take_map.search_classroom3(buildingName,week,year,semester);//获得目标的教室状态
         for(int i = 0;i<classrooms.size();i++)
         {
             room_state temproom=new room_state(classrooms.get(i).getClassroomId());

@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.service.Load_class_service;
 import com.example.demo.service.Teacher_service;
+import com.example.demo.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,9 @@ public class TeacherController {
 
     @Autowired
     private Teacher_service service;
+
+    @Autowired
+    private ManagerService m_service;
 
 
     @RequestMapping("/teacher/today/schedule")//查询老师当天要选的课（成功）
@@ -111,6 +115,13 @@ public class TeacherController {
         System.out.println(json);
         System.out.println(service.updategrade(jsonObject.getString("stuId"), jsonObject.getString("courseNum"), jsonObject.getString("year"),jsonObject.getString("semester"),jsonObject.getString("pgrade"),jsonObject.getString("grade"),jsonObject.getString("totalgrade")));
         return service.updategrade(jsonObject.getString("stuId"), jsonObject.getString("courseNum"), jsonObject.getString("year"),jsonObject.getString("semester"),jsonObject.getString("pgrade"),jsonObject.getString("grade"),jsonObject.getString("totalgrade"));
+    }
+
+    @RequestMapping("/teacher/deleteC")
+    public JSONObject managerdelete(@RequestBody String json) {
+        JSONObject jsonObject = JSONObject.parseObject(json);
+        System.out.println(json);
+        return m_service.deleteC(jsonObject.getString("semster"),jsonObject.getString("year"),jsonObject.getString("courseOrder"),jsonObject.getString("courseId"),jsonObject.getString("takeId"));
     }
 
     private String getWeek() {

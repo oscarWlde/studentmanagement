@@ -9,6 +9,8 @@ import com.example.demo.util.award.select_award;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.bean.Gataward;
+
 import java.util.List;
 
 @Service
@@ -16,6 +18,11 @@ public class AwardImplement implements award_service {
     @Autowired
     private Award_mapper mapper;
 
+    /**
+     * 获得学号为id的award信息
+     * @param id
+     * @return 奖学金信息
+     */
     @Override
     public JSONObject load_award(String id) {
         JSONObject res = new JSONObject();
@@ -29,6 +36,10 @@ public class AwardImplement implements award_service {
         }
     }
 
+    /**
+     * 获得所有award信息
+     * @return
+     */
     @Override
     public JSONObject load_all_award() {
         JSONObject res = new JSONObject();
@@ -42,11 +53,22 @@ public class AwardImplement implements award_service {
         }
     }
 
+    /**
+     *将新的奖学金信息插入
+     * @param stuId
+     * @param tag
+     * @param awardName
+     * @param state
+     * @param descript
+     * @param time
+     * @return
+     */
     @Override
     public JSONObject insert_awrad(String stuId,String tag,String awardName,String state,String descript,String time){
         JSONObject res = new JSONObject();
-        int a = mapper.insert_award(stuId,awardName,tag,state,descript,time);
-        if(a==1) {
+        List<Gataward> a = mapper.find(stuId,awardName);
+        if(a.size() == 0) {
+            mapper.insert_award(stuId,awardName,tag,state,descript,time);
             res.put("check", "true");
             return res;
         }else{
@@ -54,6 +76,13 @@ public class AwardImplement implements award_service {
             return res;
         }
     }
+
+    /**
+     * 获得某个阶段的所有奖学金的信息
+     * @param stuId
+     * @param state
+     * @return
+     */
     @Override
     public JSONObject get_award(String stuId,String state){
         JSONObject result = new JSONObject();
@@ -63,6 +92,14 @@ public class AwardImplement implements award_service {
         return result;
     }
 
+    /**
+     * 更新奖学金状态
+     * @param stuId
+     * @param state
+     * @param awardName
+     * @param time
+     * @return
+     */
     @Override
     public JSONObject update_award(String stuId,String state,String awardName,String time)
     {

@@ -77,7 +77,7 @@ public class LoginController {
         return service.loadinfo(jsonObject.getString("Id"));
     }
 
-    @RequestMapping("/email")
+    @RequestMapping("/email")//发送邮件
     public JSONObject email(){
         JSONObject res = new JSONObject();
         mailService.sendSimpleMail("2019001","这是一封测试邮件","839891341@qq.com");

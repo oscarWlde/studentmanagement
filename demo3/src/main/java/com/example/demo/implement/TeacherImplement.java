@@ -128,7 +128,7 @@ public class TeacherImplement implements Teacher_service {
         }
     }
 
-    @Override
+    @Override//修改某门课的教师
     public JSONObject upp(String courseOrder, String courseId, String semster, String year,String teacherId) {
         JSONObject res = new JSONObject();
        mapper.upp(courseOrder,courseId,semster,year,teacherId);

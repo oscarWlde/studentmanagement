@@ -26,6 +26,10 @@ public interface Take_map {
     @Select("select * from take where classroomId in (select classroomId from classroom where buildingName= #{buildingName}) and ((year = #{year} and week = #{week} and semester=#{semester}) or (type='1' and year = #{year} and semester=#{semester} and week>=#{week}))")
     List<Take> search_classroom2(@Param("buildingName") String buildingName, @Param("week") String week, @Param("year") String year,@Param("semester") String semester);
 
+    @Select("select * from take where classroomId in (select classroomId from classroom where buildingName= #{buildingName}) and (year = #{year} and week = #{week} and semester=#{semester})")
+    List<Take> search_classroom3(@Param("buildingName") String buildingName, @Param("week") String week, @Param("year") String year,@Param("semester") String semester);
+
+
     @Insert("insert into take(takeId,day,week,year,classroomId,takeDate,startTime,endTime,type,information,semester) values(#{takeId},#{day},#{week},#{year},#{classroomId},#{takeDate},#{startTime},#{endTime},#{type},#{information},#{semster})")
     void addtake(Take take);
 

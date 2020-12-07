@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.demo.service.award_service;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,9 +40,10 @@ public class AwardController {
     }
 
 
-    @RequestMapping("/student/insertAward")
+    @RequestMapping("/student/insertAward")//申请奖学金
     public JSONObject insert_award(@RequestBody String json){
         JSONObject jsonObject = JSONObject.parseObject(json);
+
         return service.insert_awrad(jsonObject.getString("stuId"),"1",jsonObject.getString("awardName"),"0",jsonObject.getString("descript"),jsonObject.getString("time"));
 }
     @RequestMapping("/student/updateAward")
