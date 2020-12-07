@@ -17,14 +17,14 @@ public interface Class_mapper {
 
     @Select("select courseName,teacher.teacherName,course.`year`,semster,weekdata,time,buildingName,classroom.classroomId,startTime,endTime from course \n" +
             "left join teacher on teacher.teacherName = course.teacherName\n" +
-            "left join take on take.takeId = teacher.tId\n" +
-            "left join classroom on classroom.classroomId = take.classroomId")//提取全部课程
+            "left join applyforclassroom on applyforclassroom.takeId = teacher.tId\n" +
+            "left join classroom on classroom.classroomId = applyforclassroom.classroomId")//提取全部课程
     List<return_student_course> getmyClass();
 
     @Select("select courseName,teacher.teacherName,course.`year`,semster,weekdata,time,buildingName,classroom.classroomId,startTime,endTime from course \n" +
             "left join teacher on teacher.teacherName = course.teacherName\n" +
-            "left join take on take.takeId = teacher.tId\n" +
-            "left join classroom on classroom.classroomId = take.classroomId\n" +
+            "left join applyforclassroom on applyforclassroom.takeId = teacher.tId\n" +
+            "left join classroom on classroom.classroomId = applyforclassroom.classroomId\n" +
             "where course.year = #{year} and semster = #{semster};")//提取指定的全部课程
     List<return_student_course> getregularClass(String year, String semster);
 

@@ -37,12 +37,7 @@
     <div class="easyui-panel" title="课程列表" style="width:100%;max-width:400px;padding:30px 60px;">
         <li style="font-size: large;"><a style="text-decoration: none" th:href="${t_course}">当前教授课表</a></li>
         <br>
-
-        <li style="font-size: large;"><a style="text-decoration: none" th:href="${t_SelectCourse}">选择课程</a></li>
-        <br>
         <li style="font-size: large;"><a style="text-decoration: none" th:href="${t_SelectList}" >课程列表</a></li>
-        <br>
-        <li style="font-size: large;"><a style="text-decoration: none" th:href="${t_CourseTable}" >已选课程表</a></li>
     </div>
 </div>
 
@@ -77,8 +72,7 @@
             <option value="2020-1">2020-01</option>
             <option value="2019-2">2019-02</option>
         </select>
-        <a href="#" class="easyui-linkbutton" iconCls="icon-search">Search</a>
-        <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-cancel',plain:true" onclick="getSelections();">Delect</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-search">查找</a>
     </div>
 </div>
 
@@ -233,7 +227,7 @@
         // //异步请求
         $.ajax({
             type: "post",
-            url: "/student/select/teacher/course/upp",
+            url: "/student/select/teacher/deleteC",
             data: JSON.stringify(rows),
             dataType: "json",
             contentType: "application/json",

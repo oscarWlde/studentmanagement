@@ -9,8 +9,11 @@ import com.example.demo.util.classroom.room_state;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -41,8 +44,7 @@ public class ClassroomImplement implements Classroom_service {
     public JSONObject load_classroom1(String id,String type,String semester,String week,String buildingName)
     {
         Calendar date = Calendar.getInstance();
-        //String year = String.valueOf(date.get(Calendar.YEAR));//默认日期为当前系统日期
-        String year = "2019";
+        String year = String.valueOf(date.get(Calendar.YEAR));//默认日期为当前系统日期
         JSONObject result = new JSONObject();
         List<room_state> temp = new ArrayList<>();
         List<Classroom> classrooms = classroom_map.search_classroom(buildingName);//获得目标教学楼所有教室

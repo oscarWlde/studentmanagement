@@ -24,7 +24,7 @@ public interface Student_mapper {
     @Select("select course.courseNum,course.courseName,time,classroomId from course\n" +
             "left join sc on sc.courseNum = course.courseNum\n" +
             "left join student on student.stuId = sc.stuId\n" +
-            "left join take on take.takeId = sc.stuId\n" +
+            "left join applyforclassroom on applyforclassroom.takeId = sc.stuId\n" +
             "where student.stuId = #{stuId} and time = #{weekdata};")
     List<return_today_course> load_stu_course(String id, String weekdata);
 

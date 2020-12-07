@@ -16,12 +16,12 @@ public interface SC_map {
             "stuId = #{id} and sc.myyear = #{myyear} and sc.semster = #{semester})  \n")
     List<Course> load_selected_courseTable(@Param("id") String id, @Param("type") String type, @Param("myyear") String year,@Param("semester")String semester);
 
-    @Select("select course.courseNum,course.courseName,teacher.teacherName,take.classroomId,course.time,course.weekdata,student.gpa\n" +
-            "            from course,take,student,teacher\n" +
+    @Select("select course.courseNum,course.courseName,teacher.teacherName,applyforclassroom.classroomId,course.time,course.weekdata,student.gpa\n" +
+            "            from course,applyforclassroom,student,teacher\n" +
             "            where student.stuId=#{id}\n" +
             "            and course.courseNum in (select sc.courseNum\n" +
             "            from sc where stuId =#{id} )\n" +
-            "            and course.courseNum=take.takeId\n" +
+            "            and course.courseNum=applyforclassroom.takeId\n" +
             "            and course.teacherId=teacher.tId\n" +
             "            and course.semster =#{semester}\n" +
             "            and course.`year`=#{myyear}")

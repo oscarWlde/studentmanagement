@@ -14,35 +14,35 @@ import java.util.List;
 
 @Mapper
 public interface Award_mapper {
-    @Select("select distinct awardId,gatAward.awardName,gatAward.tag,state,time,content,descript from gatAward \n" +
-            "left join awardpunishment on awardpunishment.awardName = gatAward.awardName\n" +
+    @Select("select distinct awardId,getaward.awardName,getaward.tag,state,time,content,descript from getaward \n" +
+            "left join award on award.awardName = getaward.awardName\n" +
             "where stuId = #{stuId};")
     List<return_award> award(String stuId);//test
 
-    @Select("select awardId,gatAward.awardName,gatAward.tag,descript, from gatAward \n" +
-            "left join awardpunishment on awardpunishment.awardName = gatAward.awardName\n" +
+    @Select("select awardId,getaward.awardName,getaward.tag,descript, from getaward \n" +
+            "left join award on award.awardName = getaward.awardName\n" +
             "")
     List<return_award> allaward();//test
 
-    @Insert("insert into gataward values(#{stuId},#{awardName},#{tag},#{state},#{descript},#{time})")
+    @Insert("insert into getaward values(#{stuId},#{awardName},#{tag},#{state},#{descript},#{time})")
     int insert_award(@Param("stuId")String stuId,@Param("awardName")String awardName,@Param("tag")String tag,@Param("state")String state,@Param("descript")String descript,@Param("time")String time);
 
-    @Select("select * from awardpunishment where tag='1'")
+    @Select("select * from award where tag='1'")
     List<Awardpunishment> get_allaward();
 
-    @Select("select student.stuId,student.stuName,awardName,descript,gataward.time\n" +
-            "from gataward,student\n" +
-            "where student.stuId = gataward.stuId\n" +
+    @Select("select student.stuId,student.stuName,awardName,descript,getaward.time\n" +
+            "from getaward,student\n" +
+            "where student.stuId = getaward.stuId\n" +
             " and state = #{state} and tag='1'")
     List<select_award> select_award( @Param("state")String state);
 
-    @Update("update gataward set state =#{state}  where stuId = #{stuId}\n" +
+    @Update("update getaward set state =#{state}  where stuId = #{stuId}\n" +
             "and state = '0' \n" +
             "and awardName = #{awardName}\n" +
             "and time = #{time}")
     int update_award(@Param("stuId")String stuId,@Param("state")String state,@Param("awardName")String awardName,@Param("time")String time);
 
-    @Select("select * from gataward where stuId = #{stuId} and awardName = #{awardName}")
+    @Select("select * from getaward where stuId = #{stuId} and awardName = #{awardName}")
     List<Gataward> find(@Param("stuId")String stuId,@Param("awardName")String awardName);
 
 }

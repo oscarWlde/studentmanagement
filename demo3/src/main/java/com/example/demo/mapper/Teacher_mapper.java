@@ -18,7 +18,7 @@ public interface Teacher_mapper {
 
     @Select("select courseNum,course.courseName,time,classroomId from course\n" +
             "left join teacher on teacher.teacherName = course.teacherName\n" +
-            "left join take on take.takeId = teacher.tId\n" +
+            "left join applyforclassroom on applyforclassroom.takeId = teacher.tId\n" +
             "where teacher.tId = #{id} and time = #{weekdata};")
     List<return_today_course> load_today(String id, String weekdata);
 
@@ -55,9 +55,9 @@ public interface Teacher_mapper {
     @Update("update course set teacherId = #{teacherId} where courseOrder = #{courseOrder} and courseId = #{courseId} and semster = #{semster} and year = #{year};")
     void upp(@Param("courseOrder") String courseOrder, @Param("courseId") String courseId, @Param("semster") String semester, @Param("year") String year,@Param("teacherId") String teacherId);
 
-    @Select("select course.courseNum,courseName,take.startTime,take.`day`,take.classroomId\n" +
-            "from course,take\n" +
-            "where course.teacherId=#{tId} and course.courseNum=take.takeId and take.`year`=#{year} and take.semester=#{semester} ")
+    @Select("select course.courseNum,courseName,applyforclassroom.startTime,applyforclassroom.`day`,applyforclassroom.classroomId\n" +
+            "from course,applyforclassroom\n" +
+            "where course.teacherId=#{tId} and course.courseNum=applyforclassroom.takeId and applyforclassroom.`year`=#{year} and applyforclassroom.semester=#{semester} ")
     List<teacher_room> selected_course(@Param("tId")String tId,@Param("semester")String semester,@Param("year")String year);
 
     @Select("select distinct student.stuId,stuName,pgrade,sc.grade,totalgrade from sc\n" +

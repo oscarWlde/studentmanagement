@@ -7,6 +7,7 @@ import com.example.demo.bean.Take;
 import com.example.demo.mapper.Take_map;
 import com.example.demo.service.MailService;
 import com.example.demo.service.ManagerService;
+import com.example.demo.service.award_service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,8 @@ import java.util.Date;
 public class ManagerController {
     @Autowired
     private ManagerService managerService;
+    @Autowired
+    private award_service a_service;
     @Autowired
     private Take_map take_map;
     @RequestMapping("/manager/grade")
@@ -156,6 +159,16 @@ public class ManagerController {
         JSONObject jsonObject = JSONObject.parseObject(json);
         System.out.println(json);
         return managerService.warning(jsonObject.getString("year"));
+    }
+
+    @RequestMapping("/manager/updateAward")
+    public JSONObject update_award(@RequestBody String json)
+    {
+        JSONObject jsonObject = JSONObject.parseObject(json);
+        System.out.println("-----------------");
+        System.out.println(json);
+        return a_service.update_award(jsonObject.getString("stuId"),jsonObject.getString("state"),jsonObject.getString("awardName"),jsonObject.getString("time"));
+
     }
 
 }

@@ -30,11 +30,11 @@ public interface ManagerMapper {
 
     @Select("select distinct * from Course \n" +
             "left join teacher on teacher.teacherName = Course.teacherName\n" +
-            "left join take on take.takeId = Course.courseNum\n" +
+            "left join applyforclassroom on applyforclassroom.takeId = Course.courseNum\n" +
             "where semster = #{semster} and Course.year = #{year}  and limitGrade = #{grade} ")
     List<Course> serlectloadingCourse(String semster, String year, String academyName, String grade);
 
-    @Delete("delete from take where takeId = #{takeId}")
+    @Delete("delete from applyforclassroom where takeId = #{takeId}")
     void deleteclassroom(@Param("takeId") String takeId);
 
     @Delete("delete from course where courseId = #{courseId} and courseNum = #{courseOrder} and year = #{year} and semster = #{semster} ")

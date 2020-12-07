@@ -63,15 +63,19 @@ public class TeacherController {
     public JSONObject selected_courses(@RequestBody String json)
     { JSONObject jsonObject = JSONObject.parseObject(json);
         System.out.println(json);
-        return service.Selected_courses(jsonObject.getString("tId"),jsonObject.getString("semester"),jsonObject.getString("year"));
+        Calendar date = Calendar.getInstance();
+        String year = String.valueOf(date.get(Calendar.YEAR));
+
+        return service.Selected_courses(jsonObject.getString("tId"),jsonObject.getString("semester"),year);
     }
 
 
     @RequestMapping("/teacher/selected/course")//老师要选的课
     public JSONObject selected_data(@RequestBody String json){
         JSONObject jsonObject = JSONObject.parseObject(json);
-        SimpleDateFormat sim=new SimpleDateFormat("yyyy");
-        return service.select_history_data(jsonObject.getString("id"),sim.format(new Date()));
+        Calendar date = Calendar.getInstance();
+        String year = String.valueOf(date.get(Calendar.YEAR));
+        return service.select_history_data(jsonObject.getString("id"),year);
     }
 
 

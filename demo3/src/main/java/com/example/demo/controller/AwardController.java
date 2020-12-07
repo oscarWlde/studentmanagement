@@ -50,6 +50,7 @@ public class AwardController {
     public JSONObject update_award(@RequestBody String json)
     {
         JSONObject jsonObject = JSONObject.parseObject(json);
+        System.out.println("-----------------");
         System.out.println(json);
         return service.update_award(jsonObject.getString("stuId"),jsonObject.getString("state"),jsonObject.getString("awardName"),jsonObject.getString("time"));
 
