@@ -17,9 +17,10 @@
 
 <body>
 <div id="home_head">
-    <a href="Information.html" style="text-decoration: none;">
-        <p id="home_head_name" th:text="${t}"></p>
-    </a>
+    <ul class="">
+        <li><a id="home_head_name" th:text="${t}"></a></li>
+        <li><a id="logout" href="/login">登出</a></li>
+    </ul>
 </div>
 <div>
     <ul class="lable_ul">
