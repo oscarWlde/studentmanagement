@@ -22,7 +22,10 @@
 <div id="c" class="">
     <div id="head">
         <div id="home_head">
-            <p id="home_head_name" th:text="${id}">1234</p>
+            <ul class="">
+                <li><a id="home_head_name" th:text="${id}"></a></li>
+                <li><a id="logout" href="/login">登出</a></li>
+            </ul>
         </div>
         <div>
             <ul>
@@ -66,11 +69,11 @@
             <div id="r_1_2" class="">
                 <h class="t_row_3"> tips:项目成员不可修改项目信息</h>
                 <br>
-                <h class="t_row_1">Project Year</h>
+                <h class="t_row_1">项目年份</h>
                 <select style="font-size: 0.5em" id="year">
                       <option style="font-size: 1em" value="0">2020</option>
                 </select>&emsp;
-                <input type="button"  value="Search" id="search" onclick="Search_project_approval();"/>
+                <input type="button"  value="查找" id="search" onclick="Search_project_approval();"/>
             </div>
             <div id="r_1_3" class="">
 

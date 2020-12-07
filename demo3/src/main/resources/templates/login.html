@@ -133,11 +133,11 @@
         tip_1.css("display", "none");
         tip_2.css("display", "none")
         tip_3.css("display", "none")
-        if (user.val() == "") {
+        if (user.val() === "") {
             tip_1.css("display", "inline");
             tag = 1;
         }
-        if (psw.val() == "") {
+        if (psw.val() === "") {
             tip_2.css("display", "inline");
             tag = 1;
         }
@@ -145,7 +145,7 @@
             tip_3.css("display", "inline");
             tag = 1;
         }
-        if (tag == 1) {
+        if (tag === 1) {
             return false;
         } else {
             var json = {name: user.val(), psw: psw.val(), person: person.val()};
@@ -157,12 +157,12 @@
                 dataType: "json",
                 contentType: "application/json",
                 success: function (data, status) {
-                    if ("true" == data.check) {//验证成功 跳转
-                        if (person.val() == "student") {
+                    if ("true" === data.check) {//验证成功 跳转
+                        if (person.val() === "student") {
                             window.location.href = "/Home?id=" + user.val() + "&type=" + person.val();
-                        } else if (person.val() == "teacher") {
+                        } else if (person.val() === "teacher") {
                             window.location.href = "/Teacher/Home?id=" + user.val() + "&type=" + person.val();
-                        } else if (person.val() == "manager") {
+                        } else if (person.val() === "manager") {
                             window.location.href = "/A_Home?id=" + user.val() + "&type=" + person.val();
                         }
                     } else {

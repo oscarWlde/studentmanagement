@@ -33,6 +33,16 @@
     font-family:  'PMingLiU', sans-serif;
 }
 
+#logout {
+    padding-top: 10px;
+    padding-left: 20px;
+    float: right;
+    font-size: 14px;
+    color: #FFFFFF;
+    font-weight: bolder;
+    font-family: 'PMingLiU', sans-serif;
+}
+
 #home_search {
     width: 100%;
     height: 50%;

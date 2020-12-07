@@ -13,8 +13,8 @@ li {
     font-weight: bolder;
 }
 
-a:link,
-a:visited {
+.s:link,
+.s:visited {
     display: block;
     width: 120px;
     height: 50px;
@@ -28,8 +28,8 @@ a:visited {
     font-size: 20px;
 }
 
-a:hover,
-a:active {
+.s:hover,
+.s:active {
     color: #FFFFFF;
     background-color: #7ac5cd;
 }
@@ -48,6 +48,16 @@ a:active {
     color: #FFFFFF;
     font-family: 'PMingLiU', sans-serif;
     font-weight: bolder;
+}
+
+#logout {
+    padding-top: 5px;
+    padding-left: 20px;
+    float: right;
+    font-size: 14px;
+    color: #FFFFFF;
+    font-weight: bolder;
+    font-family: 'PMingLiU', sans-serif;
 }
 
 #home_schedule {

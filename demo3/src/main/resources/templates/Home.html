@@ -21,10 +21,13 @@
 </script>
 <span > </span>
     <div id="home_head">
-        <p id="home_head_name" th:text="${id}">1234</p>
+        <ul class="">
+            <li><a id="home_head_name" th:text="${id}"></a></li>
+            <li><a id="logout" href="/login">登出</a></li>
+        </ul>
     </div>
     <div>
-        <ul>
+        <ul class="select">
             <li><img src="../images/logo1.png" height="40px" style="padding: 2px;margin-left:10px;"></li>
             <li><a class="s" th:href="${home}">主页</a></li>
             <li><a class="s" th:href="${course}">课程</a></li>

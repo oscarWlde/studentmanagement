@@ -38,7 +38,10 @@
 <div id="c">
     <div id="head">
         <div id="home_head">
-            <p id="home_head_name" th:text="${id}"></p>
+            <ul class="">
+                <li><a id="home_head_name" th:text="${id}"></a></li>
+                <li><a id="logout" href="/login">登出</a></li>
+            </ul>
         </div>
         <div>
             <ul>
@@ -66,7 +69,6 @@
                 <b id="l_1_2_1">信息</b> <hr>
                 <u id="l_1_2_2">
                     <li > <a class="l_select"  href="#" >基本信息</a></li> <hr>
-                    <li ><a class="l_select"  href="#" >其他信息</a></li> <hr>
                 </u>
             </div>
         </div>
@@ -107,16 +109,6 @@
                         <td colspan="4" id="email">18301000@bjtu.edu.cn</td>
                     </tr>
 
-                </table>
-            </fieldset>
-            <fieldset style="width: 100%;">
-                <legend style="font-size: 20px;padding-bottom: 2px;" align="left"><b>简历信息</b></legend>
-                <table id="学籍信息" style="width: 100%;font-size: larger;border-collapse:collapse;" border="2">
-                    <tr>
-                        <td colspan="2">就读时间</td>
-                        <td colspan="2">毕业学校</td>
-                        <td>证明人</td>
-                    </tr>
                 </table>
             </fieldset>
         

@@ -27,7 +27,10 @@
 
     <div id="head">
         <div id="home_head">
-            <p id="home_head_name" th:text="${id}"></p>
+            <ul class="">
+                <li><a id="home_head_name" th:text="${id}"></a></li>
+                <li><a id="logout" href="/login">登出</a></li>
+            </ul>
         </div>
         <div>
             <ul>
