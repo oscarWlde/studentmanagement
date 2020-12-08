@@ -1,3 +1,5 @@
+var weeks = []
+var days = []
 function auto_create_table_selected_classroom(data) {
     annexList = new Array();
     count=0;
@@ -15,6 +17,8 @@ function auto_create_table_selected_classroom(data) {
         $("#total_page").text(last+1);
         remain=data.length%size;
         for( var i = 0; i < data.length; i++ ) {
+            weeks.push(data[i].week)
+            days.push(data[i].day)
             t="111";
             var tab="<tr>"+ "<td class='color_1'>"+data[i].classroomId+"</td>";
             tab+="<td class='color_1'>"+data[i].takeDate+"</td>";
@@ -23,7 +27,7 @@ function auto_create_table_selected_classroom(data) {
             tab+="<td class='color_1'>"+data[i].takeId+"</td>";
             tab+="<td class='color_1'>"+data[i].information+"</td>";
             tab+="<td class='color_1'>"+"成功"+"</td>";
-            tab+="<td  class='color_1' onclick='cancel($(this));'><a class='l_select_1' style='text-decoration: none;font-size: medium;font-weight: normal'  href='#'><i class=\"fa fa-times-circle-o\" aria-hidden=\"true\"></i> </a></td>";
+            tab+="<td data-index='"+data[i].week + "' data-index2 = '"+data[i].day + "' class='color_1' onclick='cancel($(this));'><a class='l_select_1' style='text-decoration: none;font-size: medium;font-weight: normal'  href='#'><i class=\"fa fa-times-circle-o\" aria-hidden=\"true\"></i> </a></td>";
             tab=tab+"</tr>";
             if (count < size) {
                 //第一页显示的数量
@@ -136,12 +140,14 @@ function  Search_selected_classroom(){
 
 }
 function cancel(a) {
+    console.log(a.attr("data-index"))
+
     var table=$("#senfe");
     var tr=table.find("tr").eq(a.parent("tr").index()+1);
     var str=tr.find("td").eq(1).text().split("-");
     var days=DateDiff(tr.find("td").eq(1).text(),"2019-09-02");
-    var week=Math.floor(days/7);
-    var day=days%7+1;
+    var week=a.attr("data-index");
+    var day=a.attr("data-index2");
     console.log("1");
     console.log(str);
     var json={

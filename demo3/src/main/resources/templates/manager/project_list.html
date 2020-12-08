@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>项目列表</title>
+    <title>Title</title>
 </head>
 <body>
 <table id="T_checkProject" class="easyui-datagrid" title="项目列表" style="width:100%;height:100%"
@@ -23,10 +23,10 @@
     </thead>
 </table>
 <div id="tb_TeacherProject" style="height: auto" >
-   年份：
+    年份：
     <select id="year" class="easyui-combobox" panelHeight="auto" style="width:15%" editable="false">
-        <option value="2020">2020</option>
         <option value="2019">2019</option>
+        <option value="2018">2019</option>
     </select>
     项目分类：
     <select id="select_projectstate" class="easyui-combobox" panelHeight="auto" style="width:15%" editable="false">
@@ -135,34 +135,61 @@
             dataType: "json",
             contentType: "application/json",
             success: function (data_1, status) {
-                console.log(data_1);
-                var data=[];
-                for(var i=0;i<data_1.length;i++){
-                    console.log(data_1[0].inf[i].projectId);
-                    var ojson={};
-                    ojson.projectId=data_1[i].inf[i].projectId;
-                    ojson.projectName=data_1[i].inf[i].projectName;
-                    ojson.type=data_1[i].inf[i].projectType;
-                    ojson.leader=data_1[i].inf[i].stuId;
-                    console.log(ojson.leader);
-                    ojson.memNum=data_1[i].inf.length;
-                    ojson.other="";
-                    ojson.teacherId=data_1[i].inf[i].teacherName;
-                    ojson.applyTime=data_1[i].inf[i].applytime;
-                    console.log();
-                    ojson.state= change(data_1[i].inf[i].state,data_1[i].inf[i].mylevel);
-                    for(var j=0;j<data_1[i].inf.length;j++){
-                        if(j==data_1[i].inf.length-1){
-                            ojson.other+=data_1[i].inf[j].stuId;
-                        }else {
-                            ojson.other+=data_1[i].inf[j].stuId+"/";
+                console.log(data_1)
+                // 数据表
+                var data = []
+                for(var row0 of data_1){
+                    var row_obj = {}
+                    var row = row0.inf
+                    for(var i = 0; i < row.length; i++){
+                        var person = row[i]
+                        // 默认第一个人组长，取组长的数据
+                        if (i == 0) {
+                            row_obj.projectId = person.projectId
+                            row_obj.projectName = person.projectName
+                            row_obj.type = person.projectType
+                            row_obj.leader = person.stuId
+                            row_obj.memNum = row.length
+                            row_obj.other = person.stuId
+                            row_obj.teacherId = person.teacherName
+                            row_obj.applyTime = person.applytime
+                            row_obj.state = change(person.state,person.mylevel)
+                        } else{
+                            // 其他人加在组员位置
+                            row_obj.other += '/' + person.stuId
                         }
                     }
-                    console.log(ojson);
-                    data.push(ojson);
-                    console.log(data);
+                    console.log(row_obj)
+                    data.push(row_obj)
                 }
-                console.log(data);
+                // console.log(data_1);
+                // var data=[];
+                // for(var i=0;i<data_1.length;i++){
+                //     console.log(data_1[0].inf[i].projectId);
+                //     var ojson={};
+                //     ojson.projectId=data_1[i].inf[i].projectId;
+                //     ojson.projectName=data_1[i].inf[i].projectName;
+                //     ojson.type=data_1[i].inf[i].projectType;
+                //     ojson.leader=data_1[i].inf[i].stuId;
+                //     console.log(ojson.leader);
+                //     ojson.memNum=data_1[i].inf.length;
+                //     ojson.other="";
+                //     ojson.teacherId=data_1[i].inf[i].teacherName;
+                //     ojson.applyTime=data_1[i].inf[i].applytime;
+                //     console.log();
+                //     ojson.state= change(data_1[i].inf[i].state,data_1[i].inf[i].mylevel);
+                //     for(var j=0;j<data_1[i].inf.length;j++){
+                //         if(j==data_1[i].inf.length-1){
+                //             ojson.other+=data_1[i].inf[j].stuId;
+                //         }else {
+                //             ojson.other+=data_1[i].inf[j].stuId+"/";
+                //         }
+                //     }
+                //     console.log(ojson);
+                //     data.push(ojson);
+                //     console.log(data);
+                // }
+                // console.log(data);
                 $('#T_checkProject').datagrid({data:data});
             }
         });
