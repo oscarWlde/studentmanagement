@@ -134,6 +134,7 @@ public class ManagerController {
     @RequestMapping("/manager/projectlist")
     public JSONArray managerlist(@RequestBody String json){
       JSONObject jsonObject = JSONObject.parseObject(json);
+      System.out.println(jsonObject.getString("state"));
     System.out.println(managerService.managerall_the_project(jsonObject.getString("state")));
         return managerService.managerall_the_project(jsonObject.getString("state"));
     }

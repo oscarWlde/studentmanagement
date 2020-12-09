@@ -21,7 +21,7 @@
 <div id="tb_A" style="height: auto" >
     年份：
     <select id="year" class="easyui-combobox" panelHeight="auto" style="width:15%" editable="false">
-        <option value="2020">2020</option>
+        <option value="2019">2019</option>
     </select>
     项目分类:
     <select id="select_a" class="easyui-combobox" panelHeight="auto" style="width:15%" editable="false">
@@ -50,12 +50,12 @@
             success: function (data_1, status) {
                 console.log(data_1.data);
                 for(var i=0;i<data_1.data.length;i++){
-                    if($("#select_a").val()==="0"){
-                        data_1.data[i].state="0";
-                    }else if($("#select_a").val()==="1"){
-                        data_1.data[i].state="1";
+                    if($("#select_a").val()=="0"){
+                        data_1.data[i].state="未审核";
+                    }else if($("#select_a").val()=="1"){
+                        data_1.data[i].state="通过";
                     }else{
-                        data_1.data[i].state="2";
+                        data_1.data[i].state="未通过";
                     }
 
                 }
@@ -70,6 +70,7 @@
         var rows = $('#A').datagrid('getSelected');
         if(rows.state==="未审核"){
             rows.state="1";
+            alert(JSON.stringify(rows));
             $.ajax({
                 type: "post",
                 url: "/manager/updateAward",
