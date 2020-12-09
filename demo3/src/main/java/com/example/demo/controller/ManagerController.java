@@ -5,17 +5,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.demo.bean.Student;
 import com.example.demo.bean.Take;
 import com.example.demo.mapper.Take_map;
-import com.example.demo.service.MailService;
 import com.example.demo.service.ManagerService;
 import com.example.demo.service.award_service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 @RestController
@@ -92,7 +89,7 @@ public class ManagerController {
         }
         student.setBirthday(jsonObject.getString("birthday"));
         student.setClassId(jsonObject.getString("classId"));
-        student.setComeTime(jsonObject.getString("stuId").substring(0,1));
+        student.setComeTime(jsonObject.getString("stuId").substring(0,4));
         student.setStuName(jsonObject.getString("stuName"));
         student.setCreditGrade(Integer.parseInt(jsonObject.getString("totalCredit")));
         student.setFolk(jsonObject.getString("folk"));
@@ -103,6 +100,7 @@ public class ManagerController {
         student.setTel(jsonObject.getString("tel"));
         student.setEmail(jsonObject.getString("email"));
         student.setAcademyName(jsonObject.getString("academy"));
+        student.setGrade(jsonObject.getString("stuId").substring(2,4));
         return managerService.insert_student(student);
     }
     @RequestMapping("/manager/changeClass")
