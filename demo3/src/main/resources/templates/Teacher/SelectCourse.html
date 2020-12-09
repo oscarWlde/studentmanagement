@@ -75,12 +75,77 @@
                 <option value="2020-1">2020-01</option>
                 <option value="2019-2">2019-02</option>
             </select>
-            <a href="#" class="easyui-linkbutton" iconCls="icon-search">查找</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-search" id="find-bt">查找</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" data-options="iconCls:'icon-save',plain:true" onclick="getSelections();">提交</a>
         </div>
     </div>
 </body>
 <script>
+    // getSelections()
+    $('#find-bt').click(e=>{
+        console.log('hello')
+        var obj = {
+            teacherId: "1",
+            year: "2020",
+            semster: "02"
+        }
+        var tno = document.getElementById('home_head_name').innerText.split(' ')[0]
+        var str=$("#yearSemester").val().split("-");
+        var json= {id: tno,year:str[0],semester:str[1],signal:"1"};
+        $.ajax({
+            type: "post",
+            url: "/teacher/select/course",
+            data: JSON.stringify(json),
+            dataType: "json",
+            contentType: "application/json",
+            success: function (data_1, status) {
+                console.log(data_1.data);
+                var data=data_1.data;
+                var course=[];
+                for(var i=0;i<data.length;i++){
+                    var ojson={};
+                    ojson.courseNum=data[i].courseNum;
+                    ojson.courseName=data[i].courseName;
+                    ojson.type=data[i].type;
+                    ojson.courseMemberNum=data[i].courseMemberNum;
+                    ojson.language=data[i].language;
+                    console.log(data[i].teacherId);
+                    if(data[i].teacherId==null){
+                        ojson.state="申请";
+                    }else {
+                        ojson.state="已申请";
+                    }
+                    course.push(ojson);
+                }
+                //data为后台返回值。我们这里后台返回的是map类型。map.put("latiao":3.5);所以到前台取值方式：
+                $('#dg').datagrid({data:course})
+
+            }
+        });
+
+        // $.post({
+        //     url: '/teacher/select/course',
+        //     data: JSON.stringify(obj),
+        //     success (res) {
+        //         console.log(res)
+        //     }
+        // })
+        // var my_data = {
+        //     total: 1,
+        //     rows: [
+        //         {
+        //             ck: 'abc',
+        //             courseNum: 'abc',
+        //             courseName: 'abc',
+        //             type: 'abc',
+        //             courseMemberNum: 'abc',
+        //             language: 'abc',
+        //             state: 'abc'
+        //         }
+        //     ]
+        // }
+        // $('#dg').datagrid('loadData', my_data)
+    })
 
     (function($){//调用函数
         function pagerFilter(data){
@@ -234,12 +299,13 @@
     }
     function getSelections(){
         //获取已选的科目
+        var tno = document.getElementById('home_head_name').innerText.split(' ')[0]
         var str=$("#yearSemester").val().split("-")
         var rows = $('#dg').datagrid('getSelected');
         var str1=rows.courseNum.split("-");
           rows.year=str[0];
           rows.semester=str[1];
-          rows.teacherId=$.getUrlParam("id");
+          rows.teacherId=tno;
           rows.signal="2";
            rows.courseId=str1[0];
            rows.courseOrder=str1[1];
@@ -252,7 +318,7 @@
         // //异步请求
         $.ajax({
             type: "post",
-            url: "/student/select/teacher/course/upp",
+            url: "/teacher/select/teacher/course/upp",
             data: JSON.stringify(rows),
             dataType: "json",
             contentType: "application/json",

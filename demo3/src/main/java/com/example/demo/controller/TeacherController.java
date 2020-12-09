@@ -52,10 +52,17 @@ public class TeacherController {
         }
 
     }
-    @RequestMapping("/student/select/teacher/course/upp")
+    @RequestMapping("/teacher/select/teacher/course/upp")
     public JSONObject upp(@RequestBody String json){
         JSONObject jsonObject = JSONObject.parseObject(json);
        System.out.println(json);
+        return service.upp(jsonObject.getString("courseOrder"),jsonObject.getString("courseId"),jsonObject.getString("semester"),jsonObject.getString("year"),jsonObject.getString("teacherId"));
+    }
+
+    @RequestMapping("/student/select/teacher/course/upp")
+    public JSONObject upp1(@RequestBody String json){
+        JSONObject jsonObject = JSONObject.parseObject(json);
+        System.out.println(json);
         return service.upp(jsonObject.getString("courseOrder"),jsonObject.getString("courseId"),jsonObject.getString("semester"),jsonObject.getString("year"),jsonObject.getString("teacherId"));
     }
 
@@ -77,6 +84,7 @@ public class TeacherController {
         String year = String.valueOf(date.get(Calendar.YEAR));
         return service.select_history_data(jsonObject.getString("id"),year);
     }
+
 
 
     @RequestMapping("/teacher/insert/course")//将选的课插入到数据库中（成功）

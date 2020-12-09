@@ -52,7 +52,7 @@ public interface Teacher_mapper {
     @Select("select * from course where year = #{year} and semster = #{semster} and teacherId = #{teacherId}")
     List<Course> selectdata2(@Param(("teacherId")) String teacherId, @Param("year") String year, @Param("semster") String semster);
 
-    @Update("update course set teacherId = #{teacherId} where courseOrder = #{courseOrder} and courseId = #{courseId} and semster = #{semster} and year = #{year};")
+    @Update("update course set teacherId = #{teacherId} , teacherName = (select teacherName from teacher where tId = #{teacherId}) where courseOrder = #{courseOrder} and courseId = #{courseId} and semster = #{semster} and year = #{year};")
     void upp(@Param("courseOrder") String courseOrder, @Param("courseId") String courseId, @Param("semster") String semester, @Param("year") String year,@Param("teacherId") String teacherId);
 
     @Select("select course.courseNum,courseName,applyforclassroom.startTime,applyforclassroom.`day`,applyforclassroom.classroomId\n" +
